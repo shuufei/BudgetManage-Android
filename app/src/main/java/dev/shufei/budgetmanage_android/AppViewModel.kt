@@ -2,6 +2,7 @@ package dev.shufei.budgetmanage_android
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.shufei.budgetmanage_android.data.Budget
 import dev.shufei.budgetmanage_android.data.source.BudgetRepository
 import kotlinx.coroutines.Dispatchers
@@ -9,8 +10,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AppViewModel constructor(val budgetRepository: BudgetRepository) : ViewModel() {
+@HiltViewModel
+class AppViewModel @Inject constructor(
+    private val budgetRepository: BudgetRepository
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(UiState())
     val uiState = _uiState.asStateFlow()

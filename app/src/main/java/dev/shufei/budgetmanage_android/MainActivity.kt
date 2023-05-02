@@ -5,34 +5,26 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.room.Room
-import dev.shufei.budgetmanage_android.data.source.local.AppDatabase
+import dagger.hilt.android.AndroidEntryPoint
 import dev.shufei.budgetmanage_android.data.Budget
-import dev.shufei.budgetmanage_android.data.source.DefaultBudgetRepository
-import dev.shufei.budgetmanage_android.data.source.local.BudgetLocalDataSource
 import dev.shufei.budgetmanage_android.ui.theme.BudgetManageAndroidTheme
 import java.util.*
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        val context = super.getApplicationContext()
-        val db = Room.databaseBuilder(
-            context = context,
-            AppDatabase::class.java, "budget-manager-db"
-        ).build()
-        val budgetDataSource = BudgetLocalDataSource(db.budgetDao())
-        val budgetRepository = DefaultBudgetRepository(budgetDataSource = budgetDataSource)
-        val viewModel = AppViewModel(budgetRepository = budgetRepository)
         super.onCreate(savedInstanceState)
         setContent {
             BudgetManageAndroidTheme {
-                SampleRoom(viewModel)
+                SampleRoom()
             }
         }
     }
@@ -40,11 +32,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun SampleRoom(
-    viewModel: AppViewModel
+    viewModel: AppViewModel = hiltViewModel()
 ) {
     val budgetsState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    val scope = rememberCoroutineScope()
 
     Column() {
         Row {
@@ -77,18 +67,5 @@ fun SampleRoom(
                 Text(text = "${budget.title}")
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    BudgetManageAndroidTheme {
-        Greeting("Android")
     }
 }
