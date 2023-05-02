@@ -11,20 +11,27 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import dev.shufei.budgetmanage_android.data.Budget
 import dev.shufei.budgetmanage_android.ui.theme.BudgetManageAndroidTheme
+import dev.shufei.budgetmanage_android.view.budget.BudgetScreen
 import java.util.*
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        /* StatusBarやNavigationBarの裏側にも描画する */
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         setContent {
             BudgetManageAndroidTheme {
-                SampleRoom()
+                BudgetScreen()
+//                SampleRoom()
             }
         }
     }
