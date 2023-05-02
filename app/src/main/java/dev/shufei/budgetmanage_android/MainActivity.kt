@@ -3,27 +3,77 @@ package dev.shufei.budgetmanage_android
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.room.Room
+import dev.shufei.budgetmanage_android.data.AppDatabase
+import dev.shufei.budgetmanage_android.data.Budget
 import dev.shufei.budgetmanage_android.ui.theme.BudgetManageAndroidTheme
+import java.util.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        val context = super.getApplicationContext()
+        val db = Room.databaseBuilder(
+            context = context,
+            AppDatabase::class.java, "budget-manager-db"
+        ).build()
+        val viewModel = AppViewModel(db = db)
         super.onCreate(savedInstanceState)
         setContent {
             BudgetManageAndroidTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
-                }
+                SampleRoom(viewModel)
+            }
+        }
+    }
+}
+
+@Composable
+fun SampleRoom(
+    viewModel: AppViewModel
+) {
+    val budgetsState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    val scope = rememberCoroutineScope()
+
+    Column() {
+        Row {
+            Text(text = "budget: ${budgetsState.budgets.count()}")
+        }
+        Row() {
+            Button(
+                onClick = {
+                    val budget = Budget(
+                        title = UUID.randomUUID().toString(),
+                        startDate = Date().toString(),
+                        endDate = Date().toString()
+                    )
+                    viewModel.addBudget(budget)
+                    println("-- insert")
+                },
+                colors = ButtonDefaults.filledTonalButtonColors(
+                    containerColor = MaterialTheme.colorScheme.tertiary,
+                    contentColor = MaterialTheme.colorScheme.onTertiary
+                )
+            ) {
+                Text(text = "Insert")
+            }
+            Button(onClick = { /*TODO*/ }, ) {
+                Text(text = "Delete")
+            }
+        }
+        Column {
+            budgetsState.budgets.forEach { budget ->
+                Text(text = "${budget.title}")
             }
         }
     }
