@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -24,11 +25,20 @@ fun CreateBudgetScreen(
     viewModel: CreateBudgetScreenViewModel = hiltViewModel()
 ) {
     val scope = rememberCoroutineScope()
+    var title by remember {
+        mutableStateOf("")
+    }
     var startDate by remember {
         mutableStateOf(LocalDate.now())
     }
     var endDate by remember {
         mutableStateOf(LocalDate.now())
+    }
+    var budgetAmount by remember {
+        mutableStateOf<Int?>(null)
+    }
+    val enabledCreate by remember {
+        derivedStateOf { title.isNotEmpty() && budgetAmount != null }
     }
     Scaffold(
         topBar = {
@@ -40,17 +50,20 @@ fun CreateBudgetScreen(
                          }
                      },
                      actions = {
-                         Button(onClick = {
-                             scope.launch {
-                                val budget = Budget(
-                                    title = "2023年4月",
-                                    startDate = Date().toString(),
-                                    endDate = Date().toString(),
-                                )
-                                viewModel.addBudget(budget)
-                                navController.popBackStack()
-                             }
-                         }) {
+                         Button(
+                             onClick = {
+                                 scope.launch {
+                                    val budget = Budget(
+                                        title = "2023年4月",
+                                        startDate = Date().toString(),
+                                        endDate = Date().toString(),
+                                    )
+                                    viewModel.addBudget(budget)
+                                    navController.popBackStack()
+                                 }
+                            },
+                             enabled = enabledCreate
+                         ) {
                              Text(text = "作成")
                          }
                      }
@@ -65,9 +78,14 @@ fun CreateBudgetScreen(
                 ) {
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = "2023年5月",
+                        value = title,
                         label = { Text(text = "タイトル") },
-                        onValueChange = {}
+                        onValueChange = { title = it },
+                        trailingIcon = {
+                            IconButton(onClick = { title = "" }) {
+                                Icon(Icons.Default.Clear, "clear title")
+                            }
+                        }
                     )
 
                     Row(
@@ -93,65 +111,15 @@ fun CreateBudgetScreen(
                         )
                     }
 
-                    Column(modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 32.dp)) {
-                        OutlinedTextField(
-                            modifier = Modifier.fillMaxWidth(),
-                            value = "¥15000",
-                            label = { Text(text = "予算額") },
-                            onValueChange = {},
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-                        )
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 12.dp)
-                        ) {
-                            FilledTonalButton(
-                                modifier = Modifier.weight(1f),
-                                shape = MaterialTheme.shapes.extraSmall,
-                                onClick = { /*TODO*/ },
-                            ) {
-                                Icon(Icons.Default.Add, "", modifier = Modifier.size(ButtonDefaults.IconSize))
-                                Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
-                                Text(text = "¥10,000")
-                            }
-                            Spacer(modifier = Modifier.size(8.dp))
-                            FilledTonalButton(
-                                modifier = Modifier.weight(1f),
-                                shape = MaterialTheme.shapes.extraSmall,
-                                onClick = { /*TODO*/ },
-                            ) {
-                                Icon(Icons.Default.Add, "", modifier = Modifier.size(ButtonDefaults.IconSize))
-                                Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
-                                Text(text = "¥5,000")
-                            }
+                    BudgetAmountField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 32.dp),
+                        value = budgetAmount,
+                        onValueChange = {
+                            budgetAmount = it
                         }
-                        Row(
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            FilledTonalButton(
-                                modifier = Modifier.weight(1f),
-                                shape = MaterialTheme.shapes.extraSmall,
-                                onClick = { /*TODO*/ },
-                            ) {
-                                Icon(Icons.Default.Add, "", modifier = Modifier.size(ButtonDefaults.IconSize))
-                                Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
-                                Text(text = "¥1,000")
-                            }
-                            Spacer(modifier = Modifier.size(8.dp))
-                            FilledTonalButton(
-                                modifier = Modifier.weight(1f),
-                                shape = MaterialTheme.shapes.extraSmall,
-                                onClick = { /*TODO*/ },
-                            ) {
-                                Icon(Icons.Default.Add, "", modifier = Modifier.size(ButtonDefaults.IconSize))
-                                Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
-                                Text(text = "¥500")
-                            }
-                        }
-                    }
+                    )
                 }
             }
         }
