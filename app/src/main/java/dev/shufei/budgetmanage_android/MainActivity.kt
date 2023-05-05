@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             BudgetManageAndroidTheme {
-                BudgetScreen()
+                BudgetManageNavHost()
 //                SampleRoom()
             }
         }

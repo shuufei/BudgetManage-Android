@@ -31,9 +31,6 @@ fun BudgetScreenTopAppBar(
                     onClick = {
                         onClickCreateBudget()
                         expandedMenu = false
-                    },
-                    trailingIcon = {
-                        Icon(Icons.Filled.Add, "create budget")
                     }
                 )
                 DropdownMenuItem(
