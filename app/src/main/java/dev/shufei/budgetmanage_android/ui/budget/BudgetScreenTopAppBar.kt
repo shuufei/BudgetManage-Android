@@ -30,7 +30,7 @@ fun BudgetScreenTopAppBar(
                     text = { Text(text = "新しい予算を作成") },
                     onClick = {
                         onClickCreateBudget()
-//                        expandedMenu = false
+                        expandedMenu = false
                     },
                     trailingIcon = {
                         Icon(Icons.Filled.Add, "create budget")
@@ -40,7 +40,7 @@ fun BudgetScreenTopAppBar(
                     text = { Text(text = "予算一覧を表示") },
                     onClick = {
                         onClickShowBudgets()
-//                        expandedMenu = false
+                        expandedMenu = false
                     }
                 )
             }
