@@ -17,10 +17,10 @@ fun BudgetManageNavHost() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = BudgetManageRoute.BUDGET) {
         composable(BudgetManageRoute.BUDGET) {
-            BudgetScreen()
+            BudgetScreen(navController)
         }
         composable(BudgetManageRoute.CREATE_BUDGET) {
-            CreateBudgetScreen()
+            CreateBudgetScreen(navController)
         }
     }
 }

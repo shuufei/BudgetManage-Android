@@ -15,6 +15,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -23,11 +24,14 @@ import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.google.accompanist.navigation.material.bottomSheet
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import dev.shufei.budgetmanage_android.BudgetManageRoute
 
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialNavigationApi::class)
 @Composable
-fun BudgetScreen() {
+fun BudgetScreen(
+    navController: NavController
+) {
     val systemUiController = rememberSystemUiController()
     val isDark = isSystemInDarkTheme()
     SideEffect {
@@ -44,14 +48,14 @@ fun BudgetScreen() {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
 
     val bottomSheetNavigator = rememberBottomSheetNavigator()
-    val navController = rememberNavController(bottomSheetNavigator)
+    val bottomSheetNavController = rememberNavController(bottomSheetNavigator)
 
     ModalBottomSheetLayout(
         bottomSheetNavigator = bottomSheetNavigator,
         sheetElevation = 0.dp,
         sheetBackgroundColor = Color.Transparent
     ) {
-        NavHost(navController = navController, "main") {
+        NavHost(navController = bottomSheetNavController, "main") {
             composable(route = "main") {
                 Scaffold(
                     modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -59,9 +63,11 @@ fun BudgetScreen() {
                         BudgetScreenTopAppBar(
                             scrollBehavior = scrollBehavior,
                             onClickShowBudgets = {
-                                navController.navigate("sheet")
+                                bottomSheetNavController.navigate("sheet")
                             },
-                            onClickCreateBudget = { /*TODO*/ }
+                            onClickCreateBudget = {
+                                navController.navigate(BudgetManageRoute.CREATE_BUDGET)
+                            }
                         )
                     },
                     floatingActionButton = {
