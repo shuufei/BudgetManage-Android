@@ -1,4 +1,4 @@
-package dev.shufei.budgetmanage_android.ui.budget
+package dev.shufei.budgetmanage_android.ui.create_budget
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

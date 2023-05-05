@@ -1,14 +1,12 @@
-package dev.shufei.budgetmanage_android.ui.budget
+package dev.shufei.budgetmanage_android.ui.create_budget
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -16,6 +14,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import dev.shufei.budgetmanage_android.data.Budget
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -25,6 +24,12 @@ fun CreateBudgetScreen(
     viewModel: CreateBudgetScreenViewModel = hiltViewModel()
 ) {
     val scope = rememberCoroutineScope()
+    var startDate by remember {
+        mutableStateOf(LocalDate.now())
+    }
+    var endDate by remember {
+        mutableStateOf(LocalDate.now())
+    }
     Scaffold(
         topBar = {
                  TopAppBar(
@@ -68,31 +73,23 @@ fun CreateBudgetScreen(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 32.dp)
+                            .padding(top = 32.dp, start = 8.dp, end = 8.dp)
                     ) {
-                        /* TODO: text fieldでなく、text buttonにする? */
-                        OutlinedTextField(
+                        DateField(
                             modifier = Modifier.weight(1f),
-                            value = "2023/4/25",
-                            label = { Text(text = "開始日") },
-                            trailingIcon = {
-                                IconButton(onClick = { /*TODO*/ }) {
-                                    Icon(Icons.Default.DateRange, "select date")
-                                }
-                            },
-                            onValueChange = {}
+                            label = "開始日",
+                            value = startDate,
+                            onValueChange = {
+                                startDate = it
+                            }
                         )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        OutlinedTextField(
+                        DateField(
                             modifier = Modifier.weight(1f),
-                            value = "2023/5/24",
-                            label = { Text(text = "終了日") },
-                            trailingIcon = {
-                                IconButton(onClick = { /*TODO*/ }) {
-                                    Icon(Icons.Default.DateRange, "select date")
-                                }
-                            },
-                            onValueChange = {}
+                            label = "終了日",
+                            value = endDate,
+                            onValueChange = {
+                                endDate = it
+                            }
                         )
                     }
 

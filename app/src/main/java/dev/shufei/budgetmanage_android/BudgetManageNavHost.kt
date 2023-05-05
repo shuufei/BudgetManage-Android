@@ -5,7 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dev.shufei.budgetmanage_android.ui.budget.BudgetScreen
-import dev.shufei.budgetmanage_android.ui.budget.CreateBudgetScreen
+import dev.shufei.budgetmanage_android.ui.create_budget.CreateBudgetScreen
 
 object BudgetManageRoute {
     const val BUDGET = "Budget"
