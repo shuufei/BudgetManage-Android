@@ -54,9 +54,10 @@ fun CreateBudgetScreen(
                              onClick = {
                                  scope.launch {
                                     val budget = Budget(
-                                        title = "2023年4月",
-                                        startDate = Date().toString(),
-                                        endDate = Date().toString(),
+                                        title = title,
+                                        startDate = startDate.toString(),
+                                        endDate = endDate.toString(),
+                                        budgetAmount = budgetAmount ?: 0
                                     )
                                     viewModel.addBudget(budget)
                                     navController.popBackStack()
