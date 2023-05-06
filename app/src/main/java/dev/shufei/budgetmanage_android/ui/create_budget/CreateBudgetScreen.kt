@@ -57,13 +57,6 @@ fun CreateBudgetScreen(
                      actions = {
                          Button(
                              onClick = {
-                                 appScope.launch {
-
-                                 snackbarHostState.showSnackbar(
-                                     message = "新しい予算を登録しました",
-                                     withDismissAction = true
-                                 )
-                                 }
                                  scope.launch {
                                     val budget = Budget(
                                         title = title,
@@ -72,10 +65,15 @@ fun CreateBudgetScreen(
                                         budgetAmount = budgetAmount ?: 0
                                     )
                                     viewModel.addBudget(budget)
+                                     appScope.launch {
+                                         snackbarHostState.showSnackbar(
+                                             message = "新しい予算を登録しました",
+                                             withDismissAction = true
+                                         )
+                                     }
                                     navController.navigate(BudgetManageRoute.BUDGET) {
                                         popUpTo(navController.graph.findStartDestination().id)
                                     }
-
                                  }
                             },
                              enabled = enabledCreate

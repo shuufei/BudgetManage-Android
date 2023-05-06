@@ -108,17 +108,6 @@ fun BudgetScreen(
                                 }
                             }
                         }
-//                        LazyColumn(contentPadding = paddingValues) {
-//                            items(100) { count ->
-//                                Text(
-//                                    text = "Item ${count + 1}",
-//                                    modifier = Modifier
-//                                        .fillMaxWidth()
-//                                        .height(30.dp)
-//                                        .padding(20.dp, 4.dp)
-//                                )
-//                            }
-//                        }
                     }
                 )
             }
@@ -192,6 +181,10 @@ fun BudgetScreen(
                                 onClickDelete = {
                                     scope.launch {
                                         viewModel.delete(budget)
+                                        snackbarHostState.showSnackbar(
+                                            message = "予算を削除しました",
+                                            withDismissAction = true
+                                        )
                                     }
                                 }
                             )
