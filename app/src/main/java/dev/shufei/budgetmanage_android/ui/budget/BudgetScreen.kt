@@ -171,14 +171,20 @@ fun BudgetScreen(
                             }
                         }
                         itemsIndexed(budgets) { index, budget ->
-                            val shape = when (index) {
-                                0 -> RoundedCornerShape(
+                            val shape = when {
+                                index == 0 && index == budgets.lastIndex -> RoundedCornerShape(
+                                        MaterialTheme.shapes.small.topStart,
+                                        MaterialTheme.shapes.small.topStart,
+                                        MaterialTheme.shapes.small.topStart,
+                                        MaterialTheme.shapes.small.topStart,
+                                    )
+                                index == 0 -> RoundedCornerShape(
                                         MaterialTheme.shapes.small.topStart,
                                         MaterialTheme.shapes.small.topStart,
                                         CornerSize(0.dp),
                                         CornerSize(0.dp)
                                     )
-                                budgets.lastIndex -> RoundedCornerShape(
+                                index == budgets.lastIndex -> RoundedCornerShape(
                                         CornerSize(0.dp),
                                         CornerSize(0.dp),
                                         MaterialTheme.shapes.small.topStart,
@@ -201,6 +207,18 @@ fun BudgetScreen(
                             )
                             if (budgets.lastIndex != index) {
                                 Divider()
+                            }
+                        }
+                        if (budgets.isEmpty()) {
+                            item {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth().padding(8.dp),
+                                ) {
+                                    Text(
+                                        text = "予算が登録されていません",
+                                        style = MaterialTheme.typography.bodySmall
+                                    )
+                                }
                             }
                         }
                     }
