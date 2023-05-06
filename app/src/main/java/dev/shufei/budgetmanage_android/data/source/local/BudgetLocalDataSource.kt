@@ -28,4 +28,10 @@ class BudgetLocalDataSource internal constructor(
             budgetDao.insert(budget)
         }
     }
+
+    override suspend fun deleteBudget(budget: Budget) {
+        withContext(ioDispatcher) {
+            budgetDao.delete(budget)
+        }
+    }
 }

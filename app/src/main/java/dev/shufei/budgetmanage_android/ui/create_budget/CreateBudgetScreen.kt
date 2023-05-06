@@ -13,6 +13,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import dev.shufei.budgetmanage_android.BudgetManageRoute
 import dev.shufei.budgetmanage_android.data.Budget
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -60,7 +62,9 @@ fun CreateBudgetScreen(
                                         budgetAmount = budgetAmount ?: 0
                                     )
                                     viewModel.addBudget(budget)
-                                    navController.popBackStack()
+                                    navController.navigate(BudgetManageRoute.BUDGET) {
+                                        popUpTo(navController.graph.findStartDestination().id)
+                                    }
                                  }
                             },
                              enabled = enabledCreate

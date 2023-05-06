@@ -7,4 +7,5 @@ interface BudgetDataSource {
     fun getBudgetsStream(): Flow<List<Budget>>
     suspend fun getBudgets(): List<Budget>
     suspend fun addBudget(budget: Budget)
+    suspend fun deleteBudget(budget: Budget)
 }
