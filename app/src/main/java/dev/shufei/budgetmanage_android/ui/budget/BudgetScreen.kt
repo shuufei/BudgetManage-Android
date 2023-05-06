@@ -70,6 +70,7 @@ fun BudgetScreen(
     val scope = rememberCoroutineScope()
 
     val budgets by viewModel.budgetsStream.collectAsStateWithLifecycle(initialValue = emptyList())
+    val activeBudgetId by viewModel.activeBudgetIdStream.collectAsStateWithLifecycle(initialValue = null)
 
     ModalBottomSheetLayout(
         bottomSheetNavigator = bottomSheetNavigator,
@@ -100,14 +101,24 @@ fun BudgetScreen(
                         )
                     },
                     content = { paddingValues ->
-                        LazyColumn(contentPadding = paddingValues) {
-                            items(budgets) { budget ->
-                                Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                                    Text(text = budget.title ?: "")
-                                    Text(text = budget.startDate ?: "")
+                        Column(modifier = Modifier.padding(paddingValues)) {
+                            Text(text = "active budget id: ${activeBudgetId ?: "null"}")
+                            Button(onClick = {
+                                scope.launch {
+                                    viewModel.setActiveBudgetId(budgetId = budgets[0].id)
                                 }
+                            }) {
+                                Text(text = "set active budget id")
                             }
                         }
+//                        LazyColumn(contentPadding = paddingValues) {
+//                            items(budgets) { budget ->
+//                                Row(horizontalArrangement = Arrangement.SpaceBetween) {
+//                                    Text(text = budget.title ?: "")
+//                                    Text(text = budget.startDate ?: "")
+//                                }
+//                            }
+//                        }
                     }
                 )
             }

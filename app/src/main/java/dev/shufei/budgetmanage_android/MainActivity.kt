@@ -17,7 +17,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import dev.shufei.budgetmanage_android.data.Budget
 import dev.shufei.budgetmanage_android.ui.theme.BudgetManageAndroidTheme
-import dev.shufei.budgetmanage_android.ui.budget.BudgetScreen
 import java.util.*
 
 @AndroidEntryPoint
