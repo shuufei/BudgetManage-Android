@@ -71,6 +71,7 @@ fun BudgetScreen(
 
     val budgets by viewModel.budgetsStream.collectAsStateWithLifecycle(initialValue = emptyList())
     val activeBudgetId by viewModel.activeBudgetIdStream.collectAsStateWithLifecycle(initialValue = null)
+    val activeBudget by viewModel.activeBudgetStream.collectAsStateWithLifecycle(initialValue = null)
 
     ModalBottomSheetLayout(
         bottomSheetNavigator = bottomSheetNavigator,
@@ -103,9 +104,13 @@ fun BudgetScreen(
                     content = { paddingValues ->
                         Column(modifier = Modifier.padding(paddingValues)) {
                             Text(text = "active budget id: ${activeBudgetId ?: "null"}")
+                            Text(text = activeBudget?.title ?: "untitled")
+                            Text(text = activeBudget?.startDate ?: "-")
+                            Text(text = activeBudget?.endDate ?: "-")
+                            Text(text = activeBudget?.budgetAmount.toString())
                             Button(onClick = {
                                 scope.launch {
-                                    viewModel.setActiveBudgetId(budgetId = budgets[0].id)
+                                    viewModel.setActiveBudgetId(budgetId = budgets.last().id)
                                 }
                             }) {
                                 Text(text = "set active budget id")
@@ -212,7 +217,9 @@ fun BudgetScreen(
                         if (budgets.isEmpty()) {
                             item {
                                 Row(
-                                    modifier = Modifier.fillMaxWidth().padding(8.dp),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(8.dp),
                                 ) {
                                     Text(
                                         text = "予算が登録されていません",
