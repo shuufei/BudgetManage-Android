@@ -35,6 +35,7 @@ import com.google.accompanist.navigation.material.bottomSheet
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dev.shufei.budgetmanage_android.BudgetManageRoute
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 
@@ -44,6 +45,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun BudgetScreen(
     navController: NavController,
+    snackbarHostState: SnackbarHostState = SnackbarHostState(),
+    appScope: CoroutineScope = rememberCoroutineScope(),
     viewModel: BudgetScreenViewModel = hiltViewModel()
 ) {
     val systemUiController = rememberSystemUiController()
@@ -77,6 +80,7 @@ fun BudgetScreen(
             composable(route = "main") {
                 Scaffold(
                     modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+                    snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
                     topBar = {
                         BudgetScreenTopAppBar(
                             scrollBehavior = scrollBehavior,

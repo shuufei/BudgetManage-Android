@@ -16,6 +16,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import dev.shufei.budgetmanage_android.BudgetManageRoute
 import dev.shufei.budgetmanage_android.data.Budget
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.util.*
@@ -24,6 +25,8 @@ import java.util.*
 @Composable
 fun CreateBudgetScreen(
     navController: NavController,
+    snackbarHostState: SnackbarHostState = SnackbarHostState(),
+    appScope: CoroutineScope = rememberCoroutineScope(),
     viewModel: CreateBudgetScreenViewModel = hiltViewModel()
 ) {
     val scope = rememberCoroutineScope()
@@ -54,6 +57,13 @@ fun CreateBudgetScreen(
                      actions = {
                          Button(
                              onClick = {
+                                 appScope.launch {
+
+                                 snackbarHostState.showSnackbar(
+                                     message = "新しい予算を登録しました",
+                                     withDismissAction = true
+                                 )
+                                 }
                                  scope.launch {
                                     val budget = Budget(
                                         title = title,
@@ -65,6 +75,7 @@ fun CreateBudgetScreen(
                                     navController.navigate(BudgetManageRoute.BUDGET) {
                                         popUpTo(navController.graph.findStartDestination().id)
                                     }
+
                                  }
                             },
                              enabled = enabledCreate
