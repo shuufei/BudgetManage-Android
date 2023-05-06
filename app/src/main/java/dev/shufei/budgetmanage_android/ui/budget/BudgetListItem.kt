@@ -35,11 +35,11 @@ fun BudgetListItem(
                 overflow = TextOverflow.Ellipsis
             )
         },
-        leadingContent = {
-            if (budget.isActive) {
-                Icon(Icons.Default.Check, "is active")
-            }
-        },
+//        leadingContent = {
+//            if (budget.isActive) {
+//                Icon(Icons.Default.Check, "is active")
+//            }
+//        },
         trailingContent = {
             IconButton(onClick = { expandedMenu = true }) {
                 Icon(Icons.Default.MoreVert, "open budget menu")

@@ -77,7 +77,9 @@ object DatabaseModule {
             context.applicationContext,
             AppDatabase::class.java,
             "budget-manager-db"
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 }
 
