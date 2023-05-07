@@ -8,9 +8,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dev.shufei.budgetmanage_android.ui.budget.BudgetScreen
+import dev.shufei.budgetmanage_android.ui.budget_list.BudgetListScreen
 import dev.shufei.budgetmanage_android.ui.create_budget.CreateBudgetScreen
 
 object BudgetManageRoute {
+    const val BUDGET_LIST = "BudgetList"
     const val BUDGET = "Budget"
     const val CREATE_BUDGET = "CreateBudget"
 }
@@ -20,7 +22,14 @@ fun BudgetManageNavHost() {
     val navController = rememberNavController()
     val snackbarHostState = remember { SnackbarHostState() }
     val appScope = rememberCoroutineScope()
-    NavHost(navController = navController, startDestination = BudgetManageRoute.BUDGET) {
+    NavHost(navController = navController, startDestination = BudgetManageRoute.BUDGET_LIST) {
+        composable(BudgetManageRoute.BUDGET_LIST) {
+            BudgetListScreen(
+                navController,
+                snackbarHostState,
+                appScope,
+            )
+        }
         composable(BudgetManageRoute.BUDGET) {
             BudgetScreen(
                 navController,

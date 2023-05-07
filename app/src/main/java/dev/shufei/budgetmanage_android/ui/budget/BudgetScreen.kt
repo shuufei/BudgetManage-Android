@@ -35,6 +35,7 @@ import com.google.accompanist.navigation.material.bottomSheet
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dev.shufei.budgetmanage_android.BudgetManageRoute
+import dev.shufei.budgetmanage_android.ui.shared.CustomSystemUiController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -49,17 +50,7 @@ fun BudgetScreen(
     appScope: CoroutineScope = rememberCoroutineScope(),
     viewModel: BudgetScreenViewModel = hiltViewModel()
 ) {
-    val systemUiController = rememberSystemUiController()
-    val isDark = isSystemInDarkTheme()
-    SideEffect {
-        systemUiController.setStatusBarColor(
-            color = Color.Transparent,
-            darkIcons = !isDark
-        )
-        systemUiController.setNavigationBarColor(
-            color = Color.Transparent
-        )
-    }
+    CustomSystemUiController()
 
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
