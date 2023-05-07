@@ -1,6 +1,8 @@
 package dev.shufei.budgetmanage_android.ui.budget_list
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
@@ -12,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.shufei.budgetmanage_android.data.Budget
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun BudgetListItem(
@@ -31,6 +35,27 @@ fun BudgetListItem(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
+        },
+        supportingText = {
+            val budgetAmount = "¥${"%,d".format(budget.budgetAmount)}"
+            val duration = if (budget.startDate != null && budget.endDate != null) {
+                val dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd")
+                val start = LocalDate.parse(budget.startDate).format(dtf)
+                val end = LocalDate.parse(budget.endDate).format(dtf)
+                "$start - $end"
+            } else {
+                null
+            }
+            Row() {
+                Text(text = "$budgetAmount")
+                duration?.let {
+                    Text(
+                        text = "${duration?.let {it}}",
+                        modifier = Modifier.padding(start = 12.dp)
+                    )
+                }
+            }
+
         },
         trailingContent = {
             IconButton(onClick = { expandedMenu = true }) {

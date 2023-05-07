@@ -69,9 +69,6 @@ fun BudgetListScreen(
                                 }
                             }
                         )
-                        if (budgets.lastIndex != index) {
-                            Divider()
-                        }
                     }
                     if (budgets.isEmpty()) {
                         item {
