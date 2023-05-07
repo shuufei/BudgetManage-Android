@@ -1,7 +1,7 @@
 package dev.shufei.budgetmanage_android.ui.budget
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -10,13 +10,17 @@ import androidx.compose.runtime.*
 @Composable
 fun BudgetScreenTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
-    onClickShowBudgets: () -> Unit,
-    onClickCreateBudget: () -> Unit,
+    onClickBack: () -> Unit = {}
 ) {
     var expandedMenu by remember { mutableStateOf(false) }
-    CenterAlignedTopAppBar(
+    TopAppBar(
         title = {
             Text(text = "予算")
+        },
+        navigationIcon = {
+            IconButton(onClick = { onClickBack() }) {
+                Icon(Icons.Default.ArrowBack, "back")
+            }
         },
         actions = {
             IconButton(onClick = { expandedMenu = true }) {
@@ -27,17 +31,13 @@ fun BudgetScreenTopAppBar(
                 onDismissRequest = { expandedMenu = false }
             ) {
                 DropdownMenuItem(
-                    text = { Text(text = "新しい予算を作成") },
+                    text = { Text(text = "編集") },
                     onClick = {
-                        onClickCreateBudget()
-                        expandedMenu = false
                     }
                 )
                 DropdownMenuItem(
-                    text = { Text(text = "予算一覧を表示") },
+                    text = { Text(text = "削除") },
                     onClick = {
-                        onClickShowBudgets()
-                        expandedMenu = false
                     }
                 )
             }

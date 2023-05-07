@@ -1,5 +1,6 @@
 package dev.shufei.budgetmanage_android.ui.budget_list
 
+import androidx.compose.foundation.clickable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
@@ -16,13 +17,14 @@ import dev.shufei.budgetmanage_android.data.Budget
 fun BudgetListItem(
     modifier: Modifier = Modifier,
     budget: Budget,
+    onClickItem: ()  -> Unit = {},
     onClickDelete: () -> Unit = {},
     onClickEdit: () -> Unit = {},
 ) {
     var expandedMenu by remember { mutableStateOf(false) }
     var openDialog by remember { mutableStateOf(false) }
     ListItem(
-        modifier = modifier,
+        modifier = modifier.clickable { onClickItem() },
         headlineText = {
             Text(
                 text = budget.title ?: "Untitled",

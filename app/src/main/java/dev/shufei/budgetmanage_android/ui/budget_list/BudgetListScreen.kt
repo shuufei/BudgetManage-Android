@@ -17,6 +17,7 @@ import androidx.navigation.NavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.getValue
+import dev.shufei.budgetmanage_android.BudgetManageRoute
 import dev.shufei.budgetmanage_android.ui.shared.CustomSystemUiController
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,12 +49,14 @@ fun BudgetListScreen(
             ) {
                 LazyColumn(
                     modifier = Modifier
-//                        .padding(top = 16.dp, bottom = 40.dp, start = 16.dp, end = 16.dp)
                         .fillMaxWidth()
                 ) {
                     itemsIndexed(budgets) { index, budget ->
                         BudgetListItem(
                             budget = budget,
+                            onClickItem = {
+                                navController.navigate(BudgetManageRoute.BUDGET)
+                            },
                             onClickDelete = {
                                 scope.launch {
                                     viewModel.delete(budget)

@@ -54,176 +54,47 @@ fun BudgetScreen(
 
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
-
-    val bottomSheetNavigator = rememberBottomSheetNavigator()
-    val bottomSheetNavController = rememberNavController(bottomSheetNavigator)
-
     val scope = rememberCoroutineScope()
 
     val budgets by viewModel.budgetsStream.collectAsStateWithLifecycle(initialValue = emptyList())
     val activeBudgetId by viewModel.activeBudgetIdStream.collectAsStateWithLifecycle(initialValue = null)
     val activeBudget by viewModel.activeBudgetStream.collectAsStateWithLifecycle(initialValue = null)
 
-    ModalBottomSheetLayout(
-        bottomSheetNavigator = bottomSheetNavigator,
-        sheetElevation = 0.dp,
-        sheetBackgroundColor = Color.Transparent
-    ) {
-        NavHost(navController = bottomSheetNavController, "main") {
-            composable(route = "main") {
-                Scaffold(
-                    modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-                    snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
-                    topBar = {
-                        BudgetScreenTopAppBar(
-                            scrollBehavior = scrollBehavior,
-                            onClickShowBudgets = {
-                                bottomSheetNavController.navigate("sheet")
-                            },
-                            onClickCreateBudget = {
-                                navController.navigate(BudgetManageRoute.CREATE_BUDGET)
-                            }
-                        )
-                    },
-                    floatingActionButton = {
-                        ExtendedFloatingActionButton(
-                            text = { Text(text = "出費") },
-                            icon = { Icon(Icons.Filled.Add, contentDescription = "") },
-                            onClick = { /*TODO*/ }
-                        )
-                    },
-                    content = { paddingValues ->
-                        Column(modifier = Modifier.padding(paddingValues)) {
-                            Text(text = "active budget id: ${activeBudgetId ?: "null"}")
-                            Text(text = activeBudget?.title ?: "untitled")
-                            Text(text = activeBudget?.startDate ?: "-")
-                            Text(text = activeBudget?.endDate ?: "-")
-                            Text(text = activeBudget?.budgetAmount.toString())
-                            Button(onClick = {
-                                scope.launch {
-                                    viewModel.setActiveBudgetId(budgetId = budgets.last().id)
-                                }
-                            }) {
-                                Text(text = "set active budget id")
-                            }
-                        }
-//                        LazyColumn(contentPadding = paddingValues) {
-//                            items(budgets) { budget ->
-//                                Row(horizontalArrangement = Arrangement.SpaceBetween) {
-//                                    Text(text = budget.title ?: "")
-//                                    Text(text = budget.startDate ?: "")
-//                                }
-//                            }
-//                        }
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        topBar = {
+            BudgetScreenTopAppBar(
+                scrollBehavior = scrollBehavior,
+                onClickBack = {
+                    navController.popBackStack()
+                }
+            )
+        },
+        floatingActionButton = {
+            ExtendedFloatingActionButton(
+                text = { Text(text = "出費") },
+                icon = { Icon(Icons.Filled.Add, contentDescription = "") },
+                onClick = { /*TODO*/ }
+            )
+        },
+        content = { paddingValues ->
+            Column(modifier = Modifier.padding(paddingValues)) {
+                Text(text = "active budget id: ${activeBudgetId ?: "null"}")
+                Text(text = activeBudget?.title ?: "untitled")
+                Text(text = activeBudget?.startDate ?: "-")
+                Text(text = activeBudget?.endDate ?: "-")
+                Text(text = activeBudget?.budgetAmount.toString())
+                Button(onClick = {
+                    scope.launch {
+                        viewModel.setActiveBudgetId(budgetId = budgets.last().id)
                     }
-                )
-            }
-            bottomSheet(route = "sheet") {
-                Surface(
-                    modifier = Modifier
-                        .statusBarsPadding()
-                        .fillMaxHeight()
-                        .fillMaxWidth()
-                        .clip(
-                            RoundedCornerShape(
-                                MaterialTheme.shapes.extraLarge.topStart,
-                                MaterialTheme.shapes.extraLarge.topStart,
-                                CornerSize(0.dp),
-                                CornerSize(0.dp)
-                            )
-                        ),
-                    color = MaterialTheme.colorScheme.background,
-                    tonalElevation = BottomSheetDefaults.Elevation,
-                ) {
-                    LazyColumn(
-                        modifier = Modifier
-                            .padding(top = 16.dp, bottom = 40.dp, start = 16.dp, end = 16.dp)
-                            .fillMaxWidth()
-                    ) {
-                        stickyHeader {
-                            Box(modifier = Modifier
-                                .fillMaxWidth()
-                                .background(
-                                    MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
-                                )
-                            ) {
-                                Row(
-                                    modifier = Modifier
-                                        .padding(horizontal = 8.dp)
-                                        .fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.SpaceBetween,
-                                    verticalAlignment = Alignment.CenterVertically,
-                                ) {
-                                    Text(text = "予算一覧", style = MaterialTheme.typography.titleSmall)
-                                    IconButton(onClick = {
-                                        bottomSheetNavController.navigate("main") {
-                                            popUpTo(navController.graph.findStartDestination().id)
-                                        }
-                                        navController.navigate(BudgetManageRoute.CREATE_BUDGET)
-                                    }) {
-                                        Icon(Icons.Default.Add, "add budget")
-                                    }
-                                }
-                            }
-                        }
-                        itemsIndexed(budgets) { index, budget ->
-                            val shape = when {
-                                index == 0 && index == budgets.lastIndex -> RoundedCornerShape(
-                                        MaterialTheme.shapes.small.topStart,
-                                        MaterialTheme.shapes.small.topStart,
-                                        MaterialTheme.shapes.small.topStart,
-                                        MaterialTheme.shapes.small.topStart,
-                                    )
-                                index == 0 -> RoundedCornerShape(
-                                        MaterialTheme.shapes.small.topStart,
-                                        MaterialTheme.shapes.small.topStart,
-                                        CornerSize(0.dp),
-                                        CornerSize(0.dp)
-                                    )
-                                index == budgets.lastIndex -> RoundedCornerShape(
-                                        CornerSize(0.dp),
-                                        CornerSize(0.dp),
-                                        MaterialTheme.shapes.small.topStart,
-                                        MaterialTheme.shapes.small.topStart
-                                    )
-                                else -> RoundedCornerShape(0.dp)
-                            }
-                            BudgetListItem(
-                                modifier = Modifier.clip(shape),
-                                budget = budget,
-                                onClickDelete = {
-                                    scope.launch {
-                                        viewModel.delete(budget)
-                                        snackbarHostState.showSnackbar(
-                                            message = "予算を削除しました",
-                                            withDismissAction = true
-                                        )
-                                    }
-                                }
-                            )
-                            if (budgets.lastIndex != index) {
-                                Divider()
-                            }
-                        }
-                        if (budgets.isEmpty()) {
-                            item {
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(8.dp),
-                                ) {
-                                    Text(
-                                        text = "予算が登録されていません",
-                                        style = MaterialTheme.typography.bodySmall
-                                    )
-                                }
-                            }
-                        }
-                    }
+                }) {
+                    Text(text = "set active budget id")
                 }
             }
         }
-    }
+    )
 
 
 }
