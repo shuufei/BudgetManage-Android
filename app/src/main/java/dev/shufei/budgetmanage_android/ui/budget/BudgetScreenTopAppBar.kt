@@ -9,13 +9,14 @@ import androidx.compose.runtime.*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BudgetScreenTopAppBar(
+    title: String,
     scrollBehavior: TopAppBarScrollBehavior,
     onClickBack: () -> Unit = {}
 ) {
     var expandedMenu by remember { mutableStateOf(false) }
     TopAppBar(
         title = {
-            Text(text = "予算")
+            Text(text = title)
         },
         navigationIcon = {
             IconButton(onClick = { onClickBack() }) {

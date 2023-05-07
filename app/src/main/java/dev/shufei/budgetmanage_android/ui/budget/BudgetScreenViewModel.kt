@@ -13,33 +13,13 @@ import javax.inject.Inject
 @HiltViewModel
 class BudgetScreenViewModel @Inject constructor(
     private val budgetRepository: BudgetRepository,
-    private val appUiStateRepository: AppUiStateRepository,
-    private val savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     val budgetId: String = savedStateHandle[BudgetManageDestinationsArgs.BUDGET_ID]!!
     val budgetStream = budgetRepository.getBudgetStream(budgetId = budgetId)
 
-    val budgetsStream = budgetRepository.getBudgetsStream()
-    val activeBudgetIdStream = appUiStateRepository.getActiveBudgetIdStream()
-    val activeBudgetStream = combine(
-        budgetsStream,
-        activeBudgetIdStream
-    ) { budgets, activeBudgetId ->
-        var budget = budgets.find {
-            it.id == activeBudgetId
-        }
-        budget
-    }
-
     suspend fun delete(budget: Budget) {
         budgetRepository.deleteBudget(budget)
     }
-
-    suspend fun setActiveBudgetId(budgetId: String) {
-        appUiStateRepository.setActiveBudgetId(budgetId = budgetId)
-    }
 }
 
-data class UiState(
-    val budgets: List<Budget> = emptyList()
-)

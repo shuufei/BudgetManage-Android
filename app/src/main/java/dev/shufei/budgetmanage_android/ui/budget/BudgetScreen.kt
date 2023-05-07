@@ -14,7 +14,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.shufei.budgetmanage_android.ui.shared.CustomSystemUiController
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -28,11 +27,7 @@ fun BudgetScreen(
 
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
-    val scope = rememberCoroutineScope()
 
-    val budgets by viewModel.budgetsStream.collectAsStateWithLifecycle(initialValue = emptyList())
-    val activeBudgetId by viewModel.activeBudgetIdStream.collectAsStateWithLifecycle(initialValue = null)
-    val activeBudget by viewModel.activeBudgetStream.collectAsStateWithLifecycle(initialValue = null)
     val budget by viewModel.budgetStream.collectAsStateWithLifecycle(initialValue = null)
 
     Scaffold(
@@ -40,6 +35,7 @@ fun BudgetScreen(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         topBar = {
             BudgetScreenTopAppBar(
+                title = budget?.title ?: "予算",
                 scrollBehavior = scrollBehavior,
                 onClickBack = {
                     navController.popBackStack()
@@ -55,18 +51,11 @@ fun BudgetScreen(
         },
         content = { paddingValues ->
             Column(modifier = Modifier.padding(paddingValues)) {
-//                Text(text = "active budget id: ${budgetId}")
+                Text(text = budget?.id ?: "-")
                 Text(text = budget?.title ?: "untitled")
                 Text(text = budget?.startDate ?: "-")
                 Text(text = budget?.endDate ?: "-")
                 Text(text = budget?.budgetAmount.toString())
-                Button(onClick = {
-                    scope.launch {
-                        viewModel.setActiveBudgetId(budgetId = budgets.last().id)
-                    }
-                }) {
-                    Text(text = "set active budget id")
-                }
             }
         }
     )
