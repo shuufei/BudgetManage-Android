@@ -4,17 +4,29 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import dev.shufei.budgetmanage_android.ui.budget.BudgetScreen
 import dev.shufei.budgetmanage_android.ui.budget_list.BudgetListScreen
 import dev.shufei.budgetmanage_android.ui.create_budget.CreateBudgetScreen
 
+object BudgetManageScreens {
+    const val BUDGET_LIST_SCREEN = "budgetList"
+    const val BUDGET_SCREEN = "budget"
+    const val CREATE_BUDGET_SCREEN = "createTask"
+}
+
+object BudgetManageDestinationsArgs {
+    const val BUDGET_ID = "budgetId"
+}
+
 object BudgetManageRoute {
-    const val BUDGET_LIST = "BudgetList"
-    const val BUDGET = "Budget"
-    const val CREATE_BUDGET = "CreateBudget"
+    const val BUDGET_LIST = "${BudgetManageScreens.BUDGET_LIST_SCREEN}"
+    const val BUDGET = "${BudgetManageScreens.BUDGET_SCREEN}/{${BudgetManageDestinationsArgs.BUDGET_ID}}"
+    const val CREATE_BUDGET = "${BudgetManageScreens.CREATE_BUDGET_SCREEN}"
 }
 
 @Composable
@@ -30,12 +42,15 @@ fun BudgetManageNavHost() {
                 appScope,
             )
         }
-        composable(BudgetManageRoute.BUDGET) {
-            BudgetScreen(
-                navController,
-                snackbarHostState,
-                appScope
-            )
+        composable(
+            BudgetManageRoute.BUDGET,
+            arguments = listOf(navArgument("budgetId") { type = NavType.StringType })
+        ) { _ ->
+                BudgetScreen(
+                    navController,
+                    snackbarHostState,
+                    appScope
+                )
         }
         composable(BudgetManageRoute.CREATE_BUDGET) {
             CreateBudgetScreen(

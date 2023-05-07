@@ -15,6 +15,9 @@ interface BudgetDao {
     @Query("SELECT * FROM budget")
     suspend fun getAll(): List<Budget>
 
+    @Query("SELECT * FROM budget WHERE id = :budgetId")
+    fun observeBudget(budgetId: String): Flow<Budget>
+
     @Insert
     suspend fun insert(budget: Budget)
 

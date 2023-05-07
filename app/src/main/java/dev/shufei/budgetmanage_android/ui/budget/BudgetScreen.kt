@@ -33,6 +33,7 @@ fun BudgetScreen(
     val budgets by viewModel.budgetsStream.collectAsStateWithLifecycle(initialValue = emptyList())
     val activeBudgetId by viewModel.activeBudgetIdStream.collectAsStateWithLifecycle(initialValue = null)
     val activeBudget by viewModel.activeBudgetStream.collectAsStateWithLifecycle(initialValue = null)
+    val budget by viewModel.budgetStream.collectAsStateWithLifecycle(initialValue = null)
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -54,11 +55,11 @@ fun BudgetScreen(
         },
         content = { paddingValues ->
             Column(modifier = Modifier.padding(paddingValues)) {
-                Text(text = "active budget id: ${activeBudgetId ?: "null"}")
-                Text(text = activeBudget?.title ?: "untitled")
-                Text(text = activeBudget?.startDate ?: "-")
-                Text(text = activeBudget?.endDate ?: "-")
-                Text(text = activeBudget?.budgetAmount.toString())
+//                Text(text = "active budget id: ${budgetId}")
+                Text(text = budget?.title ?: "untitled")
+                Text(text = budget?.startDate ?: "-")
+                Text(text = budget?.endDate ?: "-")
+                Text(text = budget?.budgetAmount.toString())
                 Button(onClick = {
                     scope.launch {
                         viewModel.setActiveBudgetId(budgetId = budgets.last().id)

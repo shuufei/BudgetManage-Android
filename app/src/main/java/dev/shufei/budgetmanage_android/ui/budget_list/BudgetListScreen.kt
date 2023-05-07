@@ -14,6 +14,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.shufei.budgetmanage_android.BudgetManageRoute
+import dev.shufei.budgetmanage_android.BudgetManageScreens
 import dev.shufei.budgetmanage_android.ui.shared.CustomSystemUiController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -57,7 +58,7 @@ fun BudgetListScreen(
                         BudgetListItem(
                             budget = budget,
                             onClickItem = {
-                                navController.navigate(BudgetManageRoute.BUDGET)
+                                navController.navigate("${BudgetManageScreens.BUDGET_SCREEN}/${budget.id}")
                             },
                             onClickDelete = {
                                 scope.launch {

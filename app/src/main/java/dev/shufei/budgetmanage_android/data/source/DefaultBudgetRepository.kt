@@ -13,6 +13,10 @@ class DefaultBudgetRepository(
         return budgetDataSource.getBudgetsStream()
     }
 
+    override fun getBudgetStream(budgetId: String): Flow<Budget> {
+        return budgetDataSource.getBudgetStream(budgetId)
+    }
+
     override suspend fun getBudgets(): List<Budget> {
         return budgetDataSource.getBudgets()
     }

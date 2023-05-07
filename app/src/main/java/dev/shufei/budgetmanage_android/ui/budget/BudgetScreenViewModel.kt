@@ -1,7 +1,9 @@
 package dev.shufei.budgetmanage_android.ui.budget
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.shufei.budgetmanage_android.BudgetManageDestinationsArgs
 import dev.shufei.budgetmanage_android.data.Budget
 import dev.shufei.budgetmanage_android.data.source.AppUiStateRepository
 import dev.shufei.budgetmanage_android.data.source.BudgetRepository
@@ -11,8 +13,12 @@ import javax.inject.Inject
 @HiltViewModel
 class BudgetScreenViewModel @Inject constructor(
     private val budgetRepository: BudgetRepository,
-    private val appUiStateRepository: AppUiStateRepository
+    private val appUiStateRepository: AppUiStateRepository,
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+    val budgetId: String = savedStateHandle[BudgetManageDestinationsArgs.BUDGET_ID]!!
+    val budgetStream = budgetRepository.getBudgetStream(budgetId = budgetId)
+
     val budgetsStream = budgetRepository.getBudgetsStream()
     val activeBudgetIdStream = appUiStateRepository.getActiveBudgetIdStream()
     val activeBudgetStream = combine(

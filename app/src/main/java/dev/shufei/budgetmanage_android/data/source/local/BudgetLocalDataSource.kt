@@ -15,6 +15,10 @@ class BudgetLocalDataSource internal constructor(
         return budgetDao.observeBudgets()
     }
 
+    override fun getBudgetStream(budgetId: String): Flow<Budget> {
+        return budgetDao.observeBudget(budgetId)
+    }
+
     override suspend fun getBudgets(): List<Budget> = withContext(ioDispatcher) {
         return@withContext try {
             budgetDao.getAll()
