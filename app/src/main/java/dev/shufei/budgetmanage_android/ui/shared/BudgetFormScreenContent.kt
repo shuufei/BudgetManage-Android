@@ -25,10 +25,7 @@ enum class Mode {
 @Composable
 fun BudgetFormScreenContent(
     mode: Mode,
-    defaultTitle: String = "",
-    defaultStartDate: LocalDate = LocalDate.now(),
-    defaultEndDate: LocalDate = LocalDate.now(),
-    defaultBudgetAmount: Int? = null,
+    budget: Budget? = null,
     onClickBack: () -> Unit,
     done: (budget: Budget) -> Unit,
 ) {
@@ -42,16 +39,16 @@ fun BudgetFormScreenContent(
     }
 
     var title by remember {
-        mutableStateOf(defaultTitle)
+        mutableStateOf(budget?.title ?: "")
     }
     var startDate by remember {
-        mutableStateOf(defaultStartDate)
+        mutableStateOf(budget?.startDateLocalDate ?: LocalDate.now())
     }
     var endDate by remember {
-        mutableStateOf(defaultEndDate)
+        mutableStateOf(budget?.endDateLocalDate ?: LocalDate.now())
     }
     var budgetAmount by remember {
-        mutableStateOf<Int?>(defaultBudgetAmount)
+        mutableStateOf<Int?>(budget?.budgetAmount ?: null)
     }
     val enabledCreate by remember {
         derivedStateOf { title.isNotEmpty() && budgetAmount != null }
@@ -68,13 +65,19 @@ fun BudgetFormScreenContent(
                 actions = {
                     Button(
                         onClick = {
-                            val budget = Budget(
+                            val newBudget = budget?.copy(
                                 title = title,
                                 startDate = startDate.toString(),
                                 endDate = endDate.toString(),
                                 budgetAmount = budgetAmount ?: 0
                             )
-                            done(budget)
+                                ?: Budget(
+                                    title = title,
+                                    startDate = startDate.toString(),
+                                    endDate = endDate.toString(),
+                                    budgetAmount = budgetAmount ?: 0
+                                )
+                            done(newBudget)
                         },
                         enabled = enabledCreate
                     ) {

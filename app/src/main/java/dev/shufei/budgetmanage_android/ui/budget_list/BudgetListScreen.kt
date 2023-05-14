@@ -60,6 +60,9 @@ fun BudgetListScreen(
                             onClickItem = {
                                 navController.navigate("${BudgetManageScreens.BUDGET_SCREEN}/${budget.id}")
                             },
+                            onClickEdit = {
+                                navController.navigate("${BudgetManageScreens.EDIT_BUDGET_SCREEN}/${budget.id}")
+                            },
                             onClickDelete = {
                                 scope.launch {
                                     viewModel.delete(budget)

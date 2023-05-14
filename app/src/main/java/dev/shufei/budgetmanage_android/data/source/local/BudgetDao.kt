@@ -1,9 +1,6 @@
 package dev.shufei.budgetmanage_android.data.source.local
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import dev.shufei.budgetmanage_android.data.Budget
 import kotlinx.coroutines.flow.Flow
 
@@ -20,6 +17,9 @@ interface BudgetDao {
 
     @Insert
     suspend fun insert(budget: Budget)
+
+    @Update
+    suspend fun update(budget: Budget)
 
     @Delete
     suspend fun delete(budget: Budget)

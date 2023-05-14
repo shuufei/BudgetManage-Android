@@ -25,6 +25,10 @@ class DefaultBudgetRepository(
         budgetDataSource.addBudget(budget = budget)
     }
 
+    override suspend fun updateBudget(budget: Budget) {
+        budgetDataSource.updateBudget(budget = budget)
+    }
+
     override suspend fun deleteBudget(budget: Budget) {
         budgetDataSource.deleteBudget(budget = budget)
     }

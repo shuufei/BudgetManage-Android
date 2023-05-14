@@ -12,11 +12,13 @@ import androidx.navigation.navArgument
 import dev.shufei.budgetmanage_android.ui.budget.BudgetScreen
 import dev.shufei.budgetmanage_android.ui.budget_list.BudgetListScreen
 import dev.shufei.budgetmanage_android.ui.create_budget.CreateBudgetScreen
+import dev.shufei.budgetmanage_android.ui.edit_budget.EditBudgetScreen
 
 object BudgetManageScreens {
     const val BUDGET_LIST_SCREEN = "budgetList"
     const val BUDGET_SCREEN = "budget"
-    const val CREATE_BUDGET_SCREEN = "createTask"
+    const val CREATE_BUDGET_SCREEN = "createBudget"
+    const val EDIT_BUDGET_SCREEN = "editBudget"
 }
 
 object BudgetManageDestinationsArgs {
@@ -27,6 +29,7 @@ object BudgetManageRoute {
     const val BUDGET_LIST = "${BudgetManageScreens.BUDGET_LIST_SCREEN}"
     const val BUDGET = "${BudgetManageScreens.BUDGET_SCREEN}/{${BudgetManageDestinationsArgs.BUDGET_ID}}"
     const val CREATE_BUDGET = "${BudgetManageScreens.CREATE_BUDGET_SCREEN}"
+    const val EDIT_BUDGET = "${BudgetManageScreens.EDIT_BUDGET_SCREEN}/{${BudgetManageDestinationsArgs.BUDGET_ID}}"
 }
 
 @Composable
@@ -44,7 +47,7 @@ fun BudgetManageNavHost() {
         }
         composable(
             BudgetManageRoute.BUDGET,
-            arguments = listOf(navArgument("budgetId") { type = NavType.StringType })
+            arguments = listOf(navArgument(BudgetManageDestinationsArgs.BUDGET_ID) { type = NavType.StringType })
         ) { _ ->
                 BudgetScreen(
                     navController,
@@ -54,6 +57,16 @@ fun BudgetManageNavHost() {
         }
         composable(BudgetManageRoute.CREATE_BUDGET) {
             CreateBudgetScreen(
+                navController,
+                snackbarHostState,
+                appScope
+            )
+        }
+        composable(
+            BudgetManageRoute.EDIT_BUDGET,
+            arguments = listOf(navArgument(BudgetManageDestinationsArgs.BUDGET_ID) { type = NavType.StringType })
+        ) {
+            EditBudgetScreen(
                 navController,
                 snackbarHostState,
                 appScope

@@ -33,6 +33,12 @@ class BudgetLocalDataSource internal constructor(
         }
     }
 
+    override suspend fun updateBudget(budget: Budget) {
+        withContext(ioDispatcher) {
+            budgetDao.update(budget)
+        }
+    }
+
     override suspend fun deleteBudget(budget: Budget) {
         withContext(ioDispatcher) {
             budgetDao.delete(budget)
