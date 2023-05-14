@@ -14,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.shufei.budgetmanage_android.data.Budget
+import dev.shufei.budgetmanage_android.ui.shared.formatter.formatAmountOfMoney
+import dev.shufei.budgetmanage_android.ui.shared.formatter.formatBudgetDuration
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -37,20 +39,13 @@ fun BudgetListItem(
             )
         },
         supportingText = {
-            val budgetAmount = "¥${"%,d".format(budget.budgetAmount)}"
-            val duration = if (budget.startDate != null && budget.endDate != null) {
-                val dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd")
-                val start = LocalDate.parse(budget.startDate).format(dtf)
-                val end = LocalDate.parse(budget.endDate).format(dtf)
-                "$start - $end"
-            } else {
-                null
-            }
+            val budgetAmount = formatAmountOfMoney(budget.budgetAmount)
+            val duration = formatBudgetDuration(budget)
             Row() {
                 Text(text = "$budgetAmount")
-                duration?.let {
+                if (duration.isNotEmpty()) {
                     Text(
-                        text = "${duration?.let {it}}",
+                        text = "$duration",
                         modifier = Modifier.padding(start = 12.dp)
                     )
                 }

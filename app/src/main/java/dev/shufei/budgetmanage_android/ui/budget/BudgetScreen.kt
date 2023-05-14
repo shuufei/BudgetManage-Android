@@ -12,7 +12,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import dev.shufei.budgetmanage_android.ui.shared.CustomSystemUiController
+import dev.shufei.budgetmanage_android.ui.shared.compose.CustomSystemUiController
 import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalMaterial3Api::class)

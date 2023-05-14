@@ -7,8 +7,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import dev.shufei.budgetmanage_android.ui.shared.BudgetFormScreenContent
-import dev.shufei.budgetmanage_android.ui.shared.Mode
+import dev.shufei.budgetmanage_android.ui.shared.compose.BudgetFormScreenContent
+import dev.shufei.budgetmanage_android.ui.shared.compose.Mode
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

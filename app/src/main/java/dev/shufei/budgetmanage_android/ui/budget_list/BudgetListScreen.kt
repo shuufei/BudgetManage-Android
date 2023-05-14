@@ -15,7 +15,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.shufei.budgetmanage_android.BudgetManageRoute
 import dev.shufei.budgetmanage_android.BudgetManageScreens
-import dev.shufei.budgetmanage_android.ui.shared.CustomSystemUiController
+import dev.shufei.budgetmanage_android.ui.shared.compose.CustomSystemUiController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

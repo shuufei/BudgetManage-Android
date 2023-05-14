@@ -1,4 +1,4 @@
-package dev.shufei.budgetmanage_android.ui.shared
+package dev.shufei.budgetmanage_android.ui.shared.compose
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
