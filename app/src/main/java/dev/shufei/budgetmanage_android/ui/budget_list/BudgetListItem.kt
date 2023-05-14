@@ -31,6 +31,9 @@ fun BudgetListItem(
     var openDialog by remember { mutableStateOf(false) }
     ListItem(
         modifier = modifier.clickable { onClickItem() },
+        colors = ListItemDefaults.colors(
+            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
+        ),
         headlineText = {
             Text(
                 text = budget.title ?: "Untitled",
@@ -50,7 +53,6 @@ fun BudgetListItem(
                     )
                 }
             }
-
         },
         trailingContent = {
             IconButton(onClick = { expandedMenu = true }) {

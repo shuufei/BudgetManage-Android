@@ -62,6 +62,10 @@ fun BudgetFormScreenContent(
                         Icon(Icons.Filled.Close, "close dialog")
                     }
                 },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                    scrolledContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(8.dp)
+                ),
                 actions = {
                     Button(
                         onClick = {
@@ -86,6 +90,7 @@ fun BudgetFormScreenContent(
                 }
             )
         },
+        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
         content = {paddingValues ->
             Surface(modifier = Modifier.padding(paddingValues)) {
                 Column(

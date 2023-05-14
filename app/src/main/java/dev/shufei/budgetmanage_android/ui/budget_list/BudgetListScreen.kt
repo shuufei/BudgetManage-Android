@@ -46,6 +46,7 @@ fun BudgetListScreen(
                 }
             )
         },
+        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
         content = { paddingValues ->
             Surface(
                 modifier = Modifier.padding(paddingValues)

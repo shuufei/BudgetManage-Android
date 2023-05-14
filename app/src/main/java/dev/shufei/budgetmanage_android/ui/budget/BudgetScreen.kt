@@ -1,6 +1,7 @@
 package dev.shufei.budgetmanage_android.ui.budget
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
@@ -9,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -49,13 +51,22 @@ fun BudgetScreen(
                 onClick = { /*TODO*/ }
             )
         },
+        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
         content = { paddingValues ->
-            Column(modifier = Modifier.padding(paddingValues)) {
-                Text(text = budget?.id ?: "-")
-                Text(text = budget?.title ?: "untitled")
-                Text(text = budget?.startDate ?: "-")
-                Text(text = budget?.endDate ?: "-")
-                Text(text = budget?.budgetAmount.toString())
+            Column(modifier = Modifier.padding(
+                paddingValues
+            )) {
+                Column(modifier = Modifier.padding(
+                    vertical = 8.dp,
+                    horizontal = 16.dp
+                )) {
+                    budget?.let { BudgetDetailCard(budget = it) }
+                }
+                LazyColumn() {
+                    items(100) {count ->
+                        Text(text = "item ${count + 1}", modifier = Modifier.fillMaxWidth().height(30.dp).padding(20.dp, 4.dp))
+                    }
+                }
             }
         }
     )
