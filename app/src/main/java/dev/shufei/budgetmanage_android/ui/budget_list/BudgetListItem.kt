@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.shufei.budgetmanage_android.data.Budget
+import dev.shufei.budgetmanage_android.ui.shared.compose.DeleteConfirmDialog
 import dev.shufei.budgetmanage_android.ui.shared.formatter.formatAmountOfMoney
 import dev.shufei.budgetmanage_android.ui.shared.formatter.formatBudgetDuration
 import java.time.LocalDate
@@ -86,30 +87,11 @@ fun BudgetListItem(
         }
     )
     if (openDialog) {
-        AlertDialog(
-            onDismissRequest = { openDialog = false },
-            icon = {
-                   Icon(Icons.Outlined.Delete, "delete budget")
-            },
-            confirmButton = {
-                TextButton(onClick = {
-                    onClickDelete()
-                    openDialog = false
-                }) {
-                    Text(text = "削除")
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { openDialog = false }) {
-                    Text(text = "キャンセル")
-                }
-            },
-            title = {
-                Text(text = "予算を削除しますか？")
-            },
-            text = {
-                Text(text = "予算に登録された出費記録は全て削除されます。")
-            }
+        DeleteConfirmDialog(
+            title = "予算を削除しますか？",
+            description = "予算に登録された出費記録は全て削除されます。",
+            onClickDelete = { onClickDelete() },
+            onDismiss = { openDialog = false }
         )
     }
 }
