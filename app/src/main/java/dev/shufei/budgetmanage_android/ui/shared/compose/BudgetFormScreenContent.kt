@@ -1,9 +1,6 @@
 package dev.shufei.budgetmanage_android.ui.shared.compose
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Close
@@ -92,7 +89,7 @@ fun BudgetFormScreenContent(
         },
         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
         content = {paddingValues ->
-            Surface(modifier = Modifier.padding(paddingValues)) {
+            Surface(modifier = Modifier.padding(paddingValues).fillMaxHeight()) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
