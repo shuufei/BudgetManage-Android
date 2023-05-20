@@ -20,12 +20,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.systemuicontroller.SystemUiController
 import dev.shufei.budgetmanage_android.data.Category
 import dev.shufei.budgetmanage_android.data.CategoryTheme
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun CategoryListBottomSheet() {
+fun CategoryListBottomSheet(
+    categories: List<Category>
+) {
     Surface(
         modifier = Modifier
             .statusBarsPadding()
@@ -61,20 +64,6 @@ fun CategoryListBottomSheet() {
                     }
                 }
             }
-            val categories = listOf(
-                Category(
-                    name = "生活費",
-                    themeId = "red"
-                ),
-                Category(
-                    name = "Jリーグ遠征費",
-                    themeId = "red"
-                ),
-                Category(
-                    name = "飲み代",
-                    themeId = "red"
-                ),
-            )
             itemsIndexed(categories) { index, category ->
                 val shape = when {
                     index == 0 && index == categories.lastIndex -> RoundedCornerShape(
@@ -103,6 +92,19 @@ fun CategoryListBottomSheet() {
                 )
                 if (categories.lastIndex != index) {
                     Divider()
+                }
+            }
+            if (categories.isEmpty()) {
+                item {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                    ) {
+                        Text(
+                            text = "カテゴリが登録されていません",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
                 }
             }
         }
@@ -136,7 +138,7 @@ fun CategoryListItem(
                 modifier = Modifier
                     .size(24.dp)
                     .background(
-                        CategoryTheme.red.getColor(isSystemInDarkTheme()),
+                        CategoryTheme.getById(category.themeId).getColor(isSystemInDarkTheme()),
                         RoundedCornerShape(3.dp)
                     )
             )

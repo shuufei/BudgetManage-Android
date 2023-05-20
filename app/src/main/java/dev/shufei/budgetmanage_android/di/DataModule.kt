@@ -40,7 +40,7 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun provideCategoryRepository(
-        @LocalCategoryDataSource localDataSource: CategoryLocalDataSource
+        @LocalCategoryDataSource localDataSource: CategoryDataSource
     ): CategoryRepository {
         return DefaultCategoryRepository(localDataSource)
     }

@@ -48,6 +48,7 @@ fun BudgetListScreen(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
 
     val budgets by viewModel.budgetsStream.collectAsStateWithLifecycle(initialValue = emptyList())
+    val categories by viewModel.categoriesStream.collectAsStateWithLifecycle(initialValue = emptyList())
 
     CustomSystemUiController()
 
@@ -124,7 +125,7 @@ fun BudgetListScreen(
                 )
             }
             bottomSheet(route = "bottomSheet") {
-                CategoryListBottomSheet()
+                CategoryListBottomSheet(categories)
             }
         }
     }

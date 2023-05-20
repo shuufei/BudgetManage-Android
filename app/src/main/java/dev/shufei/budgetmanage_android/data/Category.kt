@@ -27,7 +27,23 @@ object Red: CategoryThemeValue {
     }
 }
 
+object Gray: CategoryThemeValue {
+    override val id: String = "gray"
+    override val name: String = "gray"
+    override fun getColor(darkTheme: Boolean): Color {
+        return Color(0xffa0a0a0)
+    }
+}
+
 object CategoryTheme {
     val red: CategoryThemeValue = Red
+    val gray: CategoryThemeValue = Gray
+
+    fun getById(id: String): CategoryThemeValue {
+        return when(id) {
+            "red" -> this.red
+            else -> this.gray
+        }
+    }
 }
 
