@@ -1,6 +1,8 @@
 package dev.shufei.budgetmanage_android.ui.budget_list
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -80,6 +82,7 @@ fun BudgetListScreen(
                             LazyColumn(
                                 modifier = Modifier
                                     .fillMaxWidth()
+                                    .background(MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp))
                             ) {
                                 itemsIndexed(budgets) { index, budget ->
                                     BudgetListItem(
@@ -105,8 +108,8 @@ fun BudgetListScreen(
                                     item {
                                         Row(
                                             modifier = Modifier
-                                                .fillMaxWidth()
-                                                .padding(8.dp),
+                                                .fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.Center
                                         ) {
                                             Text(
                                                 text = "予算が登録されていません",

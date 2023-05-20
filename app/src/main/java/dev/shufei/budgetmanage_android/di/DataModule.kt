@@ -9,17 +9,18 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.shufei.budgetmanage_android.data.source.local.AppUiStateLocalDataSource
-import dev.shufei.budgetmanage_android.data.source.local.dataStore
 import dev.shufei.budgetmanage_android.data.source.*
-import dev.shufei.budgetmanage_android.data.source.local.AppDatabase
-import dev.shufei.budgetmanage_android.data.source.local.BudgetLocalDataSource
+import dev.shufei.budgetmanage_android.data.source.local.*
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
 annotation class LocalBudgetDataSource
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class LocalCategoryDataSource
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
@@ -34,6 +35,14 @@ object RepositoryModule {
         @LocalBudgetDataSource localDataSource: BudgetDataSource
     ): BudgetRepository {
         return DefaultBudgetRepository(localDataSource)
+    }
+
+    @Singleton
+    @Provides
+    fun provideCategoryRepository(
+        @LocalCategoryDataSource localDataSource: CategoryLocalDataSource
+    ): CategoryRepository {
+        return DefaultCategoryRepository(localDataSource)
     }
 
     @Singleton
@@ -55,6 +64,15 @@ object DataSourceModule {
         database: AppDatabase
     ): BudgetDataSource {
         return BudgetLocalDataSource(database.budgetDao())
+    }
+
+    @Singleton
+    @LocalCategoryDataSource
+    @Provides
+    fun provideCategoryLocalDataSource(
+        database: AppDatabase
+    ): CategoryDataSource {
+        return CategoryLocalDataSource(database.categoryDao())
     }
 
     @Singleton

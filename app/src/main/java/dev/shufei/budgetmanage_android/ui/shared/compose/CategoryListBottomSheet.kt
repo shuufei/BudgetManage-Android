@@ -2,6 +2,7 @@ package dev.shufei.budgetmanage_android.ui.shared.compose
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -17,10 +18,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.shufei.budgetmanage_android.data.Category
+import dev.shufei.budgetmanage_android.data.CategoryTheme
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -38,7 +39,7 @@ fun CategoryListBottomSheet() {
                     CornerSize(0.dp)
                 )
             ),
-        color = MaterialTheme.colorScheme.background,
+        color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp),
         tonalElevation = BottomSheetDefaults.Elevation,
     ) {
         LazyColumn(
@@ -134,7 +135,10 @@ fun CategoryListItem(
             Box(
                 modifier = Modifier
                     .size(24.dp)
-                    .background(Color.Red, RoundedCornerShape(3.dp))
+                    .background(
+                        CategoryTheme.red.getColor(isSystemInDarkTheme()),
+                        RoundedCornerShape(3.dp)
+                    )
             )
         },
         trailingContent = {
