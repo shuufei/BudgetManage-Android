@@ -125,7 +125,12 @@ fun BudgetListScreen(
                 )
             }
             bottomSheet(route = "bottomSheet") {
-                CategoryListBottomSheet(categories)
+                CategoryListBottomSheet(
+                    categories
+                ) {
+//                    bottomSheetNavController.navigate("main")
+                    navController.navigate(BudgetManageRoute.CREATE_CATEGORY)
+                }
             }
         }
     }

@@ -12,6 +12,7 @@ import androidx.navigation.navArgument
 import dev.shufei.budgetmanage_android.ui.budget.BudgetScreen
 import dev.shufei.budgetmanage_android.ui.budget_list.BudgetListScreen
 import dev.shufei.budgetmanage_android.ui.create_budget.CreateBudgetScreen
+import dev.shufei.budgetmanage_android.ui.create_category.CreateCategoryScreen
 import dev.shufei.budgetmanage_android.ui.edit_budget.EditBudgetScreen
 
 object BudgetManageScreens {
@@ -19,6 +20,7 @@ object BudgetManageScreens {
     const val BUDGET_SCREEN = "budget"
     const val CREATE_BUDGET_SCREEN = "createBudget"
     const val EDIT_BUDGET_SCREEN = "editBudget"
+    const val CREATE_CATEGORY_SCREEN = "createCategory"
 }
 
 object BudgetManageDestinationsArgs {
@@ -30,6 +32,7 @@ object BudgetManageRoute {
     const val BUDGET = "${BudgetManageScreens.BUDGET_SCREEN}/{${BudgetManageDestinationsArgs.BUDGET_ID}}"
     const val CREATE_BUDGET = "${BudgetManageScreens.CREATE_BUDGET_SCREEN}"
     const val EDIT_BUDGET = "${BudgetManageScreens.EDIT_BUDGET_SCREEN}/{${BudgetManageDestinationsArgs.BUDGET_ID}}"
+    const val CREATE_CATEGORY = "${BudgetManageScreens.CREATE_CATEGORY_SCREEN}"
 }
 
 @Composable
@@ -71,6 +74,11 @@ fun BudgetManageNavHost() {
                 snackbarHostState,
                 appScope
             )
+        }
+        composable(
+            BudgetManageRoute.CREATE_CATEGORY
+        ) {
+            CreateCategoryScreen()
         }
     }
 }
