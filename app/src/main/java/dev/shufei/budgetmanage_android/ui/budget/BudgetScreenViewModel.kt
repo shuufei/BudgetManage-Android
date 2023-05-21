@@ -17,6 +17,7 @@ class BudgetScreenViewModel @Inject constructor(
 ) : ViewModel() {
     val budgetId: String = savedStateHandle[BudgetManageDestinationsArgs.BUDGET_ID]!!
     val budgetStream = budgetRepository.getBudgetStream(budgetId = budgetId)
+    val budgetWithCategoriesStream = budgetRepository.getBudgetWithCategoriesStream(budgetId = budgetId)
 
     suspend fun delete(budget: Budget) {
         budgetRepository.deleteBudget(budget)

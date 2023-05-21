@@ -2,6 +2,7 @@ package dev.shufei.budgetmanage_android.ui.budget
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
@@ -31,6 +32,7 @@ fun BudgetScreen(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
 
     val budget by viewModel.budgetStream.collectAsStateWithLifecycle(initialValue = null)
+    val budgetWithCategory by viewModel.budgetWithCategoriesStream.collectAsStateWithLifecycle(initialValue = null)
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -62,9 +64,16 @@ fun BudgetScreen(
                 )) {
                     budget?.let { BudgetDetailCard(budget = it) }
                 }
+                Text(text = "${budgetWithCategory?.categories?.count() ?: 0}")
                 LazyColumn() {
+                    items(budgetWithCategory?.categories ?: emptyList()) {category -> 
+                        Text(text = "${category.name}")
+                    }
                     items(100) {count ->
-                        Text(text = "item ${count + 1}", modifier = Modifier.fillMaxWidth().height(30.dp).padding(20.dp, 4.dp))
+                        Text(text = "item ${count + 1}", modifier = Modifier
+                            .fillMaxWidth()
+                            .height(30.dp)
+                            .padding(20.dp, 4.dp))
                     }
                 }
             }

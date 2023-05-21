@@ -1,6 +1,7 @@
 package dev.shufei.budgetmanage_android.data.source
 
 import dev.shufei.budgetmanage_android.data.Budget
+import dev.shufei.budgetmanage_android.data.BudgetWithCategories
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -15,6 +16,10 @@ class DefaultBudgetRepository(
 
     override fun getBudgetStream(budgetId: String): Flow<Budget> {
         return budgetDataSource.getBudgetStream(budgetId)
+    }
+
+    override fun getBudgetWithCategoriesStream(budgetId: String): Flow<BudgetWithCategories> {
+        return budgetDataSource.getBudgetWithCategoriesStream(budgetId)
     }
 
     override suspend fun getBudgets(): List<Budget> {
