@@ -20,14 +20,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.systemuicontroller.SystemUiController
 import dev.shufei.budgetmanage_android.data.Category
 import dev.shufei.budgetmanage_android.data.CategoryTheme
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryListBottomSheet(
-    categories: List<Category>
+    categories: List<Category>,
+    onClickCreate: () -> Unit
 ) {
     Surface(
         modifier = Modifier
@@ -59,7 +59,7 @@ fun CategoryListBottomSheet(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(text = "カテゴリ一覧", style = MaterialTheme.typography.titleSmall)
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = { onClickCreate() }) {
                         Icon(Icons.Default.Add, "add category")
                     }
                 }

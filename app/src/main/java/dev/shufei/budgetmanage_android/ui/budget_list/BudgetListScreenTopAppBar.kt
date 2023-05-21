@@ -11,8 +11,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun BudgetListScreenTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
-    onClickCreateBudget: () -> Unit,
-    onClickShowCategories: () -> Unit
+    onClickCreateBudget: () -> Unit
 ) {
     var expandedMenu by remember { mutableStateOf(false) }
     CenterAlignedTopAppBar(
@@ -31,9 +30,8 @@ fun BudgetListScreenTopAppBar(
                 onDismissRequest = { expandedMenu = false }
             ) {
                 DropdownMenuItem(
-                    text = { Text(text = "カテゴリ一覧を表示") },
+                    text = { Text(text = "dummy menu item") },
                     onClick = {
-                        onClickShowCategories()
                         expandedMenu = false
                     }
                 )
