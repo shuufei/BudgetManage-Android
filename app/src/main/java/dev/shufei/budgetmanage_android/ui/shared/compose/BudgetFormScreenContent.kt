@@ -89,57 +89,56 @@ fun BudgetFormScreenContent(
         },
         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
         content = {paddingValues ->
-            Surface(modifier = Modifier.padding(paddingValues).fillMaxHeight()) {
-                Column(
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(paddingValues)
+                    .padding(horizontal = 16.dp)
+            ) {
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = title,
+                    label = { Text(text = "タイトル") },
+                    onValueChange = { title = it },
+                    trailingIcon = {
+                        IconButton(onClick = { title = "" }) {
+                            Icon(Icons.Default.Clear, "clear title")
+                        }
+                    }
+                )
+
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp)
+                        .padding(top = 32.dp, start = 8.dp, end = 8.dp)
                 ) {
-                    OutlinedTextField(
-                        modifier = Modifier.fillMaxWidth(),
-                        value = title,
-                        label = { Text(text = "タイトル") },
-                        onValueChange = { title = it },
-                        trailingIcon = {
-                            IconButton(onClick = { title = "" }) {
-                                Icon(Icons.Default.Clear, "clear title")
-                            }
+                    DateField(
+                        modifier = Modifier.weight(1f),
+                        label = "開始日",
+                        value = startDate,
+                        onValueChange = {
+                            startDate = it
                         }
                     )
-
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 32.dp, start = 8.dp, end = 8.dp)
-                    ) {
-                        DateField(
-                            modifier = Modifier.weight(1f),
-                            label = "開始日",
-                            value = startDate,
-                            onValueChange = {
-                                startDate = it
-                            }
-                        )
-                        DateField(
-                            modifier = Modifier.weight(1f),
-                            label = "終了日",
-                            value = endDate,
-                            onValueChange = {
-                                endDate = it
-                            }
-                        )
-                    }
-
-                    BudgetAmountField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 32.dp),
-                        value = budgetAmount,
+                    DateField(
+                        modifier = Modifier.weight(1f),
+                        label = "終了日",
+                        value = endDate,
                         onValueChange = {
-                            budgetAmount = it
+                            endDate = it
                         }
                     )
                 }
+
+                BudgetAmountField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 32.dp),
+                    value = budgetAmount,
+                    onValueChange = {
+                        budgetAmount = it
+                    }
+                )
             }
         }
     )
