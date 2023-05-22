@@ -16,6 +16,7 @@ import androidx.navigation.NavController
 import dev.shufei.budgetmanage_android.data.Category
 import dev.shufei.budgetmanage_android.data.CategoryTheme
 import dev.shufei.budgetmanage_android.data.CategoryThemeValue
+import dev.shufei.budgetmanage_android.ui.create_budget.BudgetAmountField
 import dev.shufei.budgetmanage_android.ui.shared.compose.CustomSystemUiController
 import dev.shufei.budgetmanage_android.ui.shared.compose.ThemeExposedDropdownMenuBox
 import kotlinx.coroutines.CoroutineScope
@@ -36,6 +37,9 @@ fun CreateCategoryScreen(
     }
     var selectedTheme by remember {
         mutableStateOf<CategoryThemeValue>(CategoryTheme.default)
+    }
+    var budgetAmount by remember {
+        mutableStateOf<Int?>(null)
     }
     val enabledCreate by remember {
         derivedStateOf { title.isNotEmpty() }
@@ -62,7 +66,8 @@ fun CreateCategoryScreen(
                                       val category = Category(
                                           name = title,
                                           themeId = selectedTheme.id,
-                                          budgetId = viewModel.budgetId
+                                          budgetId = viewModel.budgetId,
+                                          categoryBudgetAmount = budgetAmount ?: 0
                                       )
                                       viewModel.addCategory(category)
                                       appScope.launch {
@@ -109,7 +114,15 @@ fun CreateCategoryScreen(
                     selectedTheme = selectedTheme,
                     selectTheme = { selectedTheme = it }
                 )
-
+                BudgetAmountField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 32.dp),
+                    value = budgetAmount,
+                    onValueChange = {
+                        budgetAmount = it
+                    }
+                )
             }
         }
     )

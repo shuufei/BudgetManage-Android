@@ -11,7 +11,8 @@ data class Category(
     @ColumnInfo(name = "id") @PrimaryKey val id: String = UUID.randomUUID().toString(),
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "themeId") val themeId: String,
-    @ColumnInfo(name = "budgetId") val budgetId: String
+    @ColumnInfo(name = "budgetId") val budgetId: String,
+    @ColumnInfo(name = "categoryBudgetAmount") val categoryBudgetAmount: Int = 0
 ) {}
 
 interface CategoryThemeValue {
