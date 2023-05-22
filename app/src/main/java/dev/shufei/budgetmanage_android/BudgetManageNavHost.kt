@@ -78,7 +78,11 @@ fun BudgetManageNavHost() {
         composable(
             BudgetManageRoute.CREATE_CATEGORY
         ) {
-            CreateCategoryScreen()
+            CreateCategoryScreen(
+                navController,
+                snackbarHostState,
+                appScope
+            )
         }
     }
 }

@@ -96,7 +96,10 @@ fun BudgetFormScreenContent(
                     .padding(horizontal = 16.dp)
             ) {
                 OutlinedTextField(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp)
+                    ,
                     value = title,
                     label = { Text(text = "タイトル") },
                     onValueChange = { title = it },
@@ -104,7 +107,8 @@ fun BudgetFormScreenContent(
                         IconButton(onClick = { title = "" }) {
                             Icon(Icons.Default.Clear, "clear title")
                         }
-                    }
+                    },
+                    singleLine = true
                 )
 
                 Row(
