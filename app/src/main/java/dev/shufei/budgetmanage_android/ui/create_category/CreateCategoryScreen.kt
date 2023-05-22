@@ -32,7 +32,6 @@ fun CreateCategoryScreen(
         mutableStateOf<CategoryThemeValue>(CategoryTheme.default)
     }
 
-
     CustomSystemUiController()
     Scaffold(
         topBar = {

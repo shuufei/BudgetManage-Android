@@ -6,6 +6,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import dev.shufei.budgetmanage_android.ui.shared.compose.BudgetFormScreenContent
+import dev.shufei.budgetmanage_android.ui.shared.compose.CustomSystemUiController
 import dev.shufei.budgetmanage_android.ui.shared.compose.Mode
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -19,6 +20,7 @@ fun CreateBudgetScreen(
 ) {
     val scope = rememberCoroutineScope()
 
+    CustomSystemUiController()
     BudgetFormScreenContent(
         mode = Mode.CREATE,
         onClickBack = { navController.popBackStack() },

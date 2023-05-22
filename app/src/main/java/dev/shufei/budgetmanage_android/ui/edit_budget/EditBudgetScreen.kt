@@ -8,6 +8,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.shufei.budgetmanage_android.ui.shared.compose.BudgetFormScreenContent
+import dev.shufei.budgetmanage_android.ui.shared.compose.CustomSystemUiController
 import dev.shufei.budgetmanage_android.ui.shared.compose.Mode
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -22,6 +23,7 @@ fun EditBudgetScreen(
     val scope = rememberCoroutineScope()
     val budget by viewModel.budgetStream.collectAsStateWithLifecycle(initialValue = null)
 
+    CustomSystemUiController()
     if (budget != null) {
         BudgetFormScreenContent(
             budget = budget,
