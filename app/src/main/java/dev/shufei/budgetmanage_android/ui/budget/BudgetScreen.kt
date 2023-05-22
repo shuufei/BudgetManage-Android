@@ -9,6 +9,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
@@ -16,8 +17,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.shufei.budgetmanage_android.BudgetManageDestinationsArgs
-import dev.shufei.budgetmanage_android.BudgetManageRoute
 import dev.shufei.budgetmanage_android.BudgetManageScreens
+import dev.shufei.budgetmanage_android.ui.shared.compose.CategoryCard
 import dev.shufei.budgetmanage_android.ui.shared.compose.CustomSystemUiController
 import kotlinx.coroutines.CoroutineScope
 
@@ -66,7 +67,32 @@ fun BudgetScreen(
                     horizontal = 16.dp
                 )) {
                     budget?.let { BudgetDetailCard(budget = it) }
+                    Row(
+                        modifier = Modifier.padding(top = 16.dp, start = 8.dp, end = 8.dp).fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "カテゴリ",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        TextButton(
+                            onClick = { /*TODO*/ }
+                        ) {
+                            Text(text = "編集")
+                        }
+                    }
+                    Column(
+                        modifier = Modifier.padding(top = 4.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        for (category in budgetWithCategory?.categories ?: emptyList()) {
+                            CategoryCard(category = category, balanceAmount = 10000)
+                        }
+                    }
                 }
+
                 Button(onClick = {
                     budget?.let {
                         navController.navigate(
@@ -75,18 +101,6 @@ fun BudgetScreen(
                     }
                 }) {
                     Text(text = "カテゴリを追加")
-                }
-                Text(text = "${budgetWithCategory?.categories?.count() ?: 0}")
-                LazyColumn() {
-                    items(budgetWithCategory?.categories ?: emptyList()) {category -> 
-                        Text(text = "${category.name}")
-                    }
-                    items(100) {count ->
-                        Text(text = "item ${count + 1}", modifier = Modifier
-                            .fillMaxWidth()
-                            .height(30.dp)
-                            .padding(20.dp, 4.dp))
-                    }
                 }
             }
         }
