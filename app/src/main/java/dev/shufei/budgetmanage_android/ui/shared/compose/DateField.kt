@@ -1,4 +1,4 @@
-package dev.shufei.budgetmanage_android.ui.create_budget
+package dev.shufei.budgetmanage_android.ui.shared.compose
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,13 +35,23 @@ fun DateField(
     Column(
         modifier = modifier,
     ) {
-        Text(text = label, style = MaterialTheme.typography.labelMedium)
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onSurface
+        )
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = value.format(dtf))
+            Text(
+                text = value.format(dtf),
+                color = MaterialTheme.colorScheme.onSurface
+            )
             Spacer(Modifier.size(8.dp))
-            IconButton(onClick = { openDialog = true }) {
+            IconButton(
+                onClick = { openDialog = true },
+                colors = IconButtonDefaults.iconButtonColors(contentColor = MaterialTheme.colorScheme.onSurface)
+            ) {
                 Icon(Icons.Default.DateRange, "select date")
             }
         }

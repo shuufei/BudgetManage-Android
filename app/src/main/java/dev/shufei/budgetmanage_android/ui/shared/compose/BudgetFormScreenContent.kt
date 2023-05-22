@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.shufei.budgetmanage_android.data.Budget
 import dev.shufei.budgetmanage_android.ui.create_budget.BudgetAmountField
-import dev.shufei.budgetmanage_android.ui.create_budget.DateField
 import java.time.LocalDate
 
 enum class Mode {
