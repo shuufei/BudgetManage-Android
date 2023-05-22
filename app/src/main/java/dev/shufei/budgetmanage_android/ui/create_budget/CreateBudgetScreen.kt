@@ -29,7 +29,7 @@ fun CreateBudgetScreen(
                 viewModel.addBudget(budget)
                 appScope.launch {
                     snackbarHostState.showSnackbar(
-                        message = "新しい予算を登録しました",
+                        message = "新しい予算を作成しました",
                         withDismissAction = true
                     )
                 }

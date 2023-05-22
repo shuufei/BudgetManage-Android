@@ -32,7 +32,7 @@ object BudgetManageRoute {
     const val BUDGET = "${BudgetManageScreens.BUDGET_SCREEN}/{${BudgetManageDestinationsArgs.BUDGET_ID}}"
     const val CREATE_BUDGET = "${BudgetManageScreens.CREATE_BUDGET_SCREEN}"
     const val EDIT_BUDGET = "${BudgetManageScreens.EDIT_BUDGET_SCREEN}/{${BudgetManageDestinationsArgs.BUDGET_ID}}"
-    const val CREATE_CATEGORY = "${BudgetManageScreens.CREATE_CATEGORY_SCREEN}"
+    const val CREATE_CATEGORY = "${BudgetManageScreens.CREATE_CATEGORY_SCREEN}?${BudgetManageDestinationsArgs.BUDGET_ID}={${BudgetManageDestinationsArgs.BUDGET_ID}}"
 }
 
 @Composable
@@ -76,7 +76,8 @@ fun BudgetManageNavHost() {
             )
         }
         composable(
-            BudgetManageRoute.CREATE_CATEGORY
+            BudgetManageRoute.CREATE_CATEGORY,
+            arguments = listOf(navArgument(BudgetManageDestinationsArgs.BUDGET_ID) { type = NavType.StringType })
         ) {
             CreateCategoryScreen(
                 navController,

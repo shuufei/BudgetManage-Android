@@ -15,7 +15,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import dev.shufei.budgetmanage_android.BudgetManageDestinationsArgs
 import dev.shufei.budgetmanage_android.BudgetManageRoute
+import dev.shufei.budgetmanage_android.BudgetManageScreens
 import dev.shufei.budgetmanage_android.ui.shared.compose.CustomSystemUiController
 import kotlinx.coroutines.CoroutineScope
 
@@ -65,7 +67,13 @@ fun BudgetScreen(
                 )) {
                     budget?.let { BudgetDetailCard(budget = it) }
                 }
-                Button(onClick = { navController.navigate(BudgetManageRoute.CREATE_CATEGORY) }) {
+                Button(onClick = {
+                    budget?.let {
+                        navController.navigate(
+                            "${BudgetManageScreens.CREATE_CATEGORY_SCREEN}?${BudgetManageDestinationsArgs.BUDGET_ID}=${it.id}"
+                        )
+                    }
+                }) {
                     Text(text = "カテゴリを追加")
                 }
                 Text(text = "${budgetWithCategory?.categories?.count() ?: 0}")

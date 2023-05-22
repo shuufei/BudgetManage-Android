@@ -11,12 +11,15 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import dev.shufei.budgetmanage_android.data.Category
 import dev.shufei.budgetmanage_android.data.CategoryTheme
 import dev.shufei.budgetmanage_android.data.CategoryThemeValue
 import dev.shufei.budgetmanage_android.ui.shared.compose.CustomSystemUiController
 import dev.shufei.budgetmanage_android.ui.shared.compose.ThemeExposedDropdownMenuBox
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
@@ -24,12 +27,18 @@ fun CreateCategoryScreen(
     navController: NavController,
     snackbarHostState: SnackbarHostState = SnackbarHostState(),
     appScope: CoroutineScope = rememberCoroutineScope(),
+    viewModel: CreateCategoryScreenViewModel = hiltViewModel()
 ) {
+    val scope = rememberCoroutineScope()
+
     var title by remember {
         mutableStateOf("")
     }
     var selectedTheme by remember {
         mutableStateOf<CategoryThemeValue>(CategoryTheme.default)
+    }
+    val enabledCreate by remember {
+        derivedStateOf { title.isNotEmpty() }
     }
 
     CustomSystemUiController()
@@ -47,7 +56,26 @@ fun CreateCategoryScreen(
                     scrolledContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(8.dp)
                 ),
                 actions = {
-                    Button(onClick = { /*TODO*/ }) {
+                    Button(
+                        onClick = {
+                                  scope.launch {
+                                      val category = Category(
+                                          name = title,
+                                          themeId = selectedTheme.id,
+                                          budgetId = viewModel.budgetId
+                                      )
+                                      viewModel.addCategory(category)
+                                      appScope.launch {
+                                          snackbarHostState.showSnackbar(
+                                              message = "新しいカテゴリを作成しました",
+                                              withDismissAction = true
+                                          )
+                                      }
+                                      navController.popBackStack()
+                                  }
+                        },
+                        enabled = enabledCreate
+                    ) {
                         Text(text = "作成")
                     }
                 }
