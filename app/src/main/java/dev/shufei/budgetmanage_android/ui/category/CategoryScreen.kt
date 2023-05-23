@@ -9,6 +9,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import dev.shufei.budgetmanage_android.BudgetManageScreens
 import dev.shufei.budgetmanage_android.ui.shared.compose.CustomSystemUiController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -28,6 +29,7 @@ fun CategoryScreen(
 
     CustomSystemUiController()
     Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         topBar = {
             CategoryScreenTopAppBar(
                 category = categoryWithBudget?.category,
@@ -45,6 +47,11 @@ fun CategoryScreen(
                             navController.popBackStack()
                         }
 
+                    }
+                },
+                onClickEdit = {
+                    categoryWithBudget?.let {
+                        navController.navigate("${BudgetManageScreens.EDIT_CATEGORY_SCREEN}/${it.category.id}")
                     }
                 }
             )

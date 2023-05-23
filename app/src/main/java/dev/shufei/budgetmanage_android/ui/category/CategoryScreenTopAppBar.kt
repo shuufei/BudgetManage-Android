@@ -17,6 +17,7 @@ fun CategoryScreenTopAppBar(
     category: Category?,
     onClickBack: () -> Unit,
     onClickDelete: () -> Unit,
+    onClickEdit: () -> Unit
 ) {
     var expandedMenu by remember { mutableStateOf(false) }
     var openDialog by remember { mutableStateOf(false) }
@@ -38,6 +39,7 @@ fun CategoryScreenTopAppBar(
                     text = { Text(text = "編集") },
                     leadingIcon = { Icon(Icons.Default.Edit, "edit") },
                     onClick = {
+                        onClickEdit()
                         expandedMenu = false
                     }
                 )

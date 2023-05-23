@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.shufei.budgetmanage_android.data.Category
 import dev.shufei.budgetmanage_android.data.CategoryTheme
-import dev.shufei.budgetmanage_android.data.CategoryThemeValue
 import dev.shufei.budgetmanage_android.ui.create_budget.BudgetAmountField
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,13 +33,13 @@ fun CategoryFormScreenContent(
     }
 
     var title by remember {
-        mutableStateOf("")
+        mutableStateOf(category?.name ?: "")
     }
     var selectedTheme by remember {
-        mutableStateOf<CategoryThemeValue>(CategoryTheme.default)
+        mutableStateOf(category?.let { CategoryTheme.getById(it.themeId) } ?: CategoryTheme.default)
     }
     var budgetAmount by remember {
-        mutableStateOf<Int?>(null)
+        mutableStateOf<Int?>(category?.categoryBudgetAmount)
     }
     val enabledCreate by remember {
         derivedStateOf { title.isNotEmpty() }
