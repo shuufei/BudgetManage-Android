@@ -2,7 +2,7 @@ package dev.shufei.budgetmanage_android.ui.budget
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.unit.dp
@@ -26,7 +26,7 @@ fun BudgetScreenTopAppBar(
         },
         actions = {
             IconButton(onClick = { expandedMenu = true }) {
-                Icon(Icons.Filled.Menu, "menu")
+                Icon(Icons.Filled.MoreVert, "menu")
             }
             DropdownMenu(
                 expanded = expandedMenu,

@@ -10,9 +10,9 @@ import java.util.*
 @Entity
 data class Budget(
     @ColumnInfo(name = "id") @PrimaryKey val id: String = UUID.randomUUID().toString(),
-    @ColumnInfo(name = "title") val title: String?,
-    @ColumnInfo(name = "startDate") val startDate: String?,
-    @ColumnInfo(name = "endDate") val endDate: String?,
+    @ColumnInfo(name = "title") val title: String,
+    @ColumnInfo(name = "startDate") val startDate: String,
+    @ColumnInfo(name = "endDate") val endDate: String,
     @ColumnInfo(name = "budgetAmount") val budgetAmount: Int = 0
 ) {
     val startDateLocalDate: LocalDate

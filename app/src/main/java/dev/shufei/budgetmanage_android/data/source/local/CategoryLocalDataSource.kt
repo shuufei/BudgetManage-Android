@@ -1,6 +1,7 @@
 package dev.shufei.budgetmanage_android.data.source.local
 
 import dev.shufei.budgetmanage_android.data.Category
+import dev.shufei.budgetmanage_android.data.CategoryWithBudget
 import dev.shufei.budgetmanage_android.data.source.CategoryDataSource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -13,6 +14,10 @@ class CategoryLocalDataSource internal constructor(
 ) : CategoryDataSource {
     override fun getCategoriesStream(): Flow<List<Category>> {
         return categoryDao.observeCategories()
+    }
+
+    override fun getCategoryWithBudgetStream(categoryId: String): Flow<CategoryWithBudget> {
+        return categoryDao.observeCategoryWithBudget(categoryId)
     }
 
     override suspend fun getCategories(): List<Category> {

@@ -21,10 +21,11 @@ import dev.shufei.budgetmanage_android.ui.theme.BudgetManageAndroidTheme
 @Composable
 fun CategoryCard(
     category: Category,
-    balanceAmount: Int
+    balanceAmount: Int,
+    onClick: () -> Unit = {}
 ) {
     Card(
-        onClick = {},
+        onClick = onClick,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(8.dp),
             contentColor = MaterialTheme.colorScheme.onSurface

@@ -88,7 +88,17 @@ fun BudgetScreen(
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         for (category in budgetWithCategory?.categories ?: emptyList()) {
-                            CategoryCard(category = category, balanceAmount = 10000)
+                            CategoryCard(
+                                category = category,
+                                balanceAmount = 10000,
+                                onClick = {
+                                    budget?.let {
+                                        navController.navigate(
+                                            "${BudgetManageScreens.CATEGORY_SCREEN}/${category.id}"
+                                        )
+                                    }
+                                }
+                            )
                         }
                     }
                 }
