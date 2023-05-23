@@ -1,6 +1,8 @@
 package dev.shufei.budgetmanage_android.ui.shared.compose
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Close
@@ -8,26 +10,23 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import dev.shufei.budgetmanage_android.data.Budget
+import dev.shufei.budgetmanage_android.data.Category
+import dev.shufei.budgetmanage_android.data.CategoryTheme
+import dev.shufei.budgetmanage_android.data.CategoryThemeValue
 import dev.shufei.budgetmanage_android.ui.create_budget.BudgetAmountField
-import java.time.LocalDate
-
-enum class Mode {
-    CREATE,
-    EDIT
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BudgetFormScreenContent(
+fun CategoryFormScreenContent(
     mode: Mode,
-    budget: Budget? = null,
+    budgetId: String,
+    category: Category? = null,
     onClickBack: () -> Unit,
-    done: (budget: Budget) -> Unit,
+    done: (category: Category) -> Unit,
 ) {
     val screenTitle = when (mode) {
-        Mode.CREATE -> "予算 新規作成"
-        Mode.EDIT -> "予算 編集"
+        Mode.CREATE -> "カテゴリ 新規作成"
+        Mode.EDIT -> "カテゴリ 編集"
     }
     val doneButtonLabel = when (mode) {
         Mode.CREATE -> "作成"
@@ -35,27 +34,25 @@ fun BudgetFormScreenContent(
     }
 
     var title by remember {
-        mutableStateOf(budget?.title ?: "")
+        mutableStateOf("")
     }
-    var startDate by remember {
-        mutableStateOf(budget?.startDateLocalDate ?: LocalDate.now())
-    }
-    var endDate by remember {
-        mutableStateOf(budget?.endDateLocalDate ?: LocalDate.now())
+    var selectedTheme by remember {
+        mutableStateOf<CategoryThemeValue>(CategoryTheme.default)
     }
     var budgetAmount by remember {
-        mutableStateOf(budget?.budgetAmount)
+        mutableStateOf<Int?>(null)
     }
     val enabledCreate by remember {
-        derivedStateOf { title.isNotEmpty() && budgetAmount != null }
+        derivedStateOf { title.isNotEmpty() }
     }
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = screenTitle ) },
+                title = { Text(text = screenTitle) },
                 navigationIcon = {
                     IconButton(onClick = { onClickBack() }) {
-                        Icon(Icons.Filled.Close, "close dialog")
+                        Icon(Icons.Default.Close, "close dialog")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -65,19 +62,17 @@ fun BudgetFormScreenContent(
                 actions = {
                     Button(
                         onClick = {
-                            val newBudget = budget?.copy(
-                                title = title,
-                                startDate = startDate.toString(),
-                                endDate = endDate.toString(),
-                                budgetAmount = budgetAmount ?: 0
+                            val newCategory = category?.copy(
+                                name = title,
+                                themeId = selectedTheme.id,
+                                categoryBudgetAmount = budgetAmount ?: 0
+                            ) ?: Category(
+                                name = title,
+                                themeId = selectedTheme.id,
+                                budgetId = budgetId,
+                                categoryBudgetAmount = budgetAmount ?: 0
                             )
-                                ?: Budget(
-                                    title = title,
-                                    startDate = startDate.toString(),
-                                    endDate = endDate.toString(),
-                                    budgetAmount = budgetAmount ?: 0
-                                )
-                            done(newBudget)
+                            done(newCategory)
                         },
                         enabled = enabledCreate
                     ) {
@@ -87,12 +82,12 @@ fun BudgetFormScreenContent(
             )
         },
         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
-        content = {paddingValues ->
+        content = { paddingValues ->
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
                     .padding(paddingValues)
                     .padding(horizontal = 16.dp)
+                    .fillMaxWidth()
             ) {
                 OutlinedTextField(
                     modifier = Modifier
@@ -100,8 +95,8 @@ fun BudgetFormScreenContent(
                         .padding(top = 16.dp)
                     ,
                     value = title,
-                    label = { Text(text = "タイトル") },
                     onValueChange = { title = it },
+                    label = { Text(text = "タイトル") },
                     trailingIcon = {
                         IconButton(onClick = { title = "" }) {
                             Icon(Icons.Default.Clear, "clear title")
@@ -109,30 +104,11 @@ fun BudgetFormScreenContent(
                     },
                     singleLine = true
                 )
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 32.dp, start = 8.dp, end = 8.dp)
-                ) {
-                    DateField(
-                        modifier = Modifier.weight(1f),
-                        label = "開始日",
-                        value = startDate,
-                        onValueChange = {
-                            startDate = it
-                        }
-                    )
-                    DateField(
-                        modifier = Modifier.weight(1f),
-                        label = "終了日",
-                        value = endDate,
-                        onValueChange = {
-                            endDate = it
-                        }
-                    )
-                }
-
+                ThemeExposedDropdownMenuBox(
+                    modifier = Modifier.padding(top = 16.dp),
+                    selectedTheme = selectedTheme,
+                    selectTheme = { selectedTheme = it }
+                )
                 BudgetAmountField(
                     modifier = Modifier
                         .fillMaxWidth()
