@@ -2,9 +2,6 @@ package dev.shufei.budgetmanage_android.ui.category
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -14,8 +11,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.shufei.budgetmanage_android.ui.shared.compose.CustomSystemUiController
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryScreen(
     navController: NavController,
@@ -27,22 +24,29 @@ fun CategoryScreen(
         mutableStateOf(0)
     }
     val categoryWithBudget by viewModel.category.collectAsStateWithLifecycle(initialValue = null)
+    val scope = rememberCoroutineScope()
 
     CustomSystemUiController()
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(text = categoryWithBudget?.category?.name ?: "カテゴリ") },
-                navigationIcon = { IconButton(onClick = { navController.popBackStack() }) {
-                    Icon(Icons.Default.ArrowBack, "back")
-                } },
-                actions = { IconButton(onClick = {  }) {
-                    Icon(Icons.Default.MoreVert, "open menu")
-                } },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(8.dp),
-                    scrolledContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(8.dp)
-                )
+            CategoryScreenTopAppBar(
+                category = categoryWithBudget?.category,
+                onClickBack = { navController.popBackStack() },
+                onClickDelete = {
+                    categoryWithBudget?.let {
+                        scope.launch {
+                            viewModel.delete(it.category)
+                            appScope.launch {
+                                snackbarHostState.showSnackbar(
+                                    message = "カテゴリを削除しました",
+                                    withDismissAction = true
+                                )
+                            }
+                            navController.popBackStack()
+                        }
+
+                    }
+                }
             )
         },
         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
